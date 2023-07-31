@@ -1,0 +1,89 @@
+.Main {
+	height: 40px;
+	margin: 5px 0;
+	padding: 0 10px;
+	cursor: pointer;
+	color: ;
+
+	font-size: 1.1rem;
+	letter-spacing: 0.5px;
+
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.subtaskStatusBadge {
+	width: 0;
+	overflow: hidden;
+
+	color: var(--grey);
+	font-size: 1.5rem;
+}
+
+.Main:hover .subtaskStatusBadge {
+	width: 20px;
+	transition: width 0.2s ease;
+}
+
+.subtaskContent {
+	flex-grow: 1;
+}
+
+.deleteIcon {
+	font-size: 1.7rem;
+	color: var(--red);
+
+	transition: scale 0.1s ease;
+}
+
+.deleteIcon:hover {
+	scale: 1.1;
+}
+
+.deleteIcon:active {
+	scale: 0.9;
+}
+
+/* ==== done state of subtask ==== */
+
+.Main.done {
+	font-weight: 700;
+	color: var(--green-2);
+	transition: color 0.2s ease;
+}
+
+.Main.done .subtaskContent {
+	text-decoration: line-through;
+}
+
+.Main.done .subtaskStatusBadge {
+	color: var(--green-2);
+}
+
+
+/* Subtask Form */
+.subtaskForm {
+	padding: 10px 0;
+
+	flex-grow: 1;
+	display: flex;
+	gap: 10px;
+}
+
+.subtaskContentInput {
+	padding: 0 10px;
+	border-radius: 4px;
+	outline: none;
+	border: 1px solid var(--green-2);
+
+	font-family: inherit;
+
+	flex-grow: 1;
+}
+
+.subtaskContentInput:hover,
+.subtaskContentInput:focus {
+	background-color: var(--green-2-transparent);
+	transition: background-color 0.1s ease;
+}

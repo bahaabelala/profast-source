@@ -1,0 +1,41 @@
+.SideBar {
+	width: 185px;
+	height: calc(100vh - 50px);
+	background-color: var(--green-2-transparent);
+	padding: 15px 0;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.flexWhitespace {
+	flex-grow: 1;
+}
+
+.dateForm {
+	height: 0;
+	overflow: hidden;
+	background-color: var(--white);
+	border-radius: 20px;
+
+	transition-property: height, padding, margin;
+	transition-duration: 0.2s;
+	transition-timing-function: ease-out;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.dateForm button:hover {
+	background-color: var(--green-1);
+	color: var(--white);
+}
+
+.dateForm.active {
+	height: 100px;
+	padding: 5px;
+	margin: 20px 0;
+}

@@ -1,0 +1,18 @@
+.NavItem {
+	padding: 8px 25px;
+	font-weight: 500;
+	border-radius: 16px;
+	background-color: var(--green-2);
+	margin: 0 6px;
+}
+
+.active {
+	box-shadow: 0 0 0 2px var(--white) inset;
+	font-weight: 700;
+	transition: all 0.2s ease;
+}
+
+.disabled {
+	pointer-events: none;
+	opacity: 0.7;
+}

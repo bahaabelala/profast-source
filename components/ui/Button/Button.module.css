@@ -1,0 +1,52 @@
+.Button {
+	height: 32px;
+	width: 135px;
+	border: 1px solid var(--green-2);
+	background-color: transparent;
+	color: var(--green-2);
+	outline: none;
+	border-radius: 16px;
+	margin: 4px 0;
+	font-family: inherit;
+	font-size: 1.05rem;
+	font-weight: 700;
+	cursor: pointer;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.Button svg {
+	margin-right: 5px;
+}
+
+.Button:hover {
+	background-color: var(--green-2);
+	color: var(--white);
+	transition: background-color 0.1s ease, color 0.1s ease;
+}
+
+.filled {
+	background-color: var(--green-2);
+	color: var(--white);
+}
+
+.filled:hover {
+	border-color: var(--green-1);
+	background-color: var(--green-1);
+	transition: background-color 0.1s ease, border-color 0.1s ease;
+}
+
+.red {
+	border-color: var(--red);
+	color: var(--red);
+}
+
+.red:hover {
+	background-color: var(--red);
+	color: var(--white);
+	transition-property: background-color, color;
+	transition-duration: 0.2s;
+	transition-timing-function: ease;
+}

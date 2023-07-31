@@ -1,0 +1,37 @@
+.Main {
+	height: calc(100vh - 50px);
+	padding: 20px 10px;
+	background-color: var(--green-2-transparent);
+	
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	gap: 20px;
+}
+
+.Main svg {
+	width: 26px;
+	height: 26px;
+}
+
+.Main.disabled .addTaskIconCont svg > path:last-of-type,
+.Main.disabled .deleteDayIconCont svg {
+	fill: var(--grey);
+}
+
+.Main.disabled > * {
+	pointer-events: none;
+}
+
+.addTaskIconCont,
+.deleteDayIconCont {
+	cursor: pointer;
+}
+
+.addTaskIconCont svg > path:last-of-type {
+	fill: var(--green-2);
+}
+
+.deleteDayIconCont svg {
+	fill: var(--red);
+}

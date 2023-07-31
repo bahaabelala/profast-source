@@ -1,0 +1,15 @@
+.DragIcon {
+	width: 24px;
+	height: 24px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: stretch;
+}
+
+.lines {
+	height: 2px;
+	background-color: var(--green-2);
+	margin: 1.5px;
+	border-radius: 1px;
+}

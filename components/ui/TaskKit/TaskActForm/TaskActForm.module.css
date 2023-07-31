@@ -1,0 +1,72 @@
+.TaskActForm {
+
+	width: 75%;
+	padding: 20px 25px;
+	box-shadow: 0 2px 5px 1px #00000020;
+	border-radius: 10px;
+	background-color: var(--white);
+	z-index: 999;
+	overflow: hidden;
+
+	position: fixed;
+	bottom: 20px;
+	left: 50%;
+	translate: -50%;
+
+	display: none;
+	justify-content: space-between;
+	align-items: center;
+	gap: 20px;
+
+}
+
+.TaskActForm input {
+
+	border: 1px solid var(--green-2);
+	padding: 7px 10px;
+	border-radius: 3px;
+	outline: none;
+
+	font-family: inherit;
+}
+
+.TaskActForm input:hover,
+.TaskActForm input:focus {
+	background-color: var(--green-2-transparent);
+}
+
+.title {
+
+	flex-grow: 1;
+
+}
+
+.description {
+	flex-grow: 13;
+}
+
+.active {
+	display: flex;
+}
+
+/* ======= Cancel Button ======= */
+
+.cancelBtn {
+	display: block;
+	width: 20px;
+	height: 20px;
+	background-color: var(--red);
+	border-radius: 0 0 0 5px;
+	cursor: pointer;
+
+	position: absolute;
+	top: 0;
+	right: 0;
+
+	font-weight: 700;
+	color: var(--white);
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}

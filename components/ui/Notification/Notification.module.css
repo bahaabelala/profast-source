@@ -1,0 +1,41 @@
+.Main {
+	position: fixed;
+	bottom: 10px;
+	left: 20px;
+
+	display: none;
+	padding: 20px 30px;
+	border-radius: 5px;
+	z-index: 9999;
+
+	font-weight: 400;
+	font-size: 1.2rem;
+}
+
+.yellow {
+	background-color: var(--yellow-lightened);
+	border: 1px solid var(--yellow);
+}
+
+.red {
+	background-color: var(--red-lightened);
+	border: 1px solid var(--red);
+}
+
+.green {
+	background-color: var(--green-2-transparent);
+	border: 1px solid var(--green-1);
+	color: var(--green-1);
+}
+
+.active {
+	display: block;
+}
+/*
+
+@keyframes notify {
+	0% { 
+		
+	}
+	100% {  }
+}*/

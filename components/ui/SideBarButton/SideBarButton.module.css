@@ -1,0 +1,28 @@
+.SideBarButton {
+	height: 32px;
+	width: 150px;
+	background-color: var(--green-2);
+	outline: none;
+	border: none;
+	border-radius: 16px;
+	margin: 4px 0;
+	color: var(--white);
+	font-family: inherit;
+	font-size: 1.05rem;
+	font-weight: 700;
+	cursor: pointer;
+
+	transition: all 0.2s ease;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.active {
+	background-color: var(--white);
+	color: var(--green-2);
+	border-radius: 16px 0 0 16px;
+	width: 167.5px;
+	align-self: flex-end;
+}

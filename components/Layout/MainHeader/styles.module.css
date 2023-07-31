@@ -1,0 +1,17 @@
+.MainHeader {
+	background-color: var(--green-1);
+	color: white;
+	padding: 5px 15px;
+	height: 50px;
+
+	display: flex;
+	align-items: center;
+}
+
+.settingsIconContainer {
+	cursor: pointer;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}

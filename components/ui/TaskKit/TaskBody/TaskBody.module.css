@@ -1,0 +1,224 @@
+.TaskBody {
+    height: 40px;
+    border: 1px solid var(--green-2);
+    border-radius: var(--general-border-radius) var(--general-border-radius) 0 0;
+    padding: 0 20px;
+    position: relative;
+
+    transition: all 0.2s ease;
+
+    display: flex;
+    align-items: center;
+}
+
+.TaskBody:hover {
+    background-color: var(--green-2-transparent);
+}
+
+.dragIconContainer,
+.moreIconContainer {
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.dragIconContainer {
+    cursor: grab;
+}
+
+.dragIconContainer:active {
+    cursor: grabbing;
+}
+
+.moreIconContainer svg {
+    scale: 1.2;
+    cursor: pointer;
+}
+
+.TaskBody:hover .moreIconContainer,
+.TaskBody:hover .dragIconContainer {
+    display: flex;
+}
+
+.taskContent {
+    margin: 0 10px 0 5px;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+}
+
+.taskContent > * {
+    margin: 5px;
+}
+
+.subtasksArrow {
+    rotate: -90deg;
+    margin: 0 15px;
+    cursor: pointer;
+
+    font-size: 1.6rem;
+}
+
+.subtasksArrow:hover {
+    scale: 1.1;
+    transition: scale 0.1s ease;
+}
+
+.subtasksArrow:active {
+    scale: 0.9;
+}
+
+.subtasksArrow.active {
+    rotate: 90deg;
+    transition: rotate 0.2s ease;
+}
+
+
+/* ===============================
+    Task Different Statuses Styles
+    =============================== */
+
+/* todo status */
+
+.TaskBody.todo .taskStatusBadge {
+    color: var(--grey);
+}
+
+.TaskBody.todo .subtasksArrow {
+    color: var(--green-2);
+}
+
+
+/* done status */
+
+.TaskBody.done {
+    background-color: var(--green-2);
+    color: var(--white);
+    border-color: var(--green-2);
+    transition: background-color 20ms ease, color 20ms ease;
+}
+
+.TaskBody.done svg path[fill="#05E39C"] {
+    fill: var(--white);
+}
+
+.TaskBody.done .dragIconContainer span {
+    background-color: var(--white);
+}
+
+.TaskBody.done .taskContent {
+    text-decoration: line-through;
+}
+
+.TaskBody.done:hover {
+    background-color: var(--green-2);
+}
+
+
+/* doing status */
+
+.TaskBody.doing {
+    transition: background-color 20ms ease, color 20ms ease;
+    background-color: var(--green-2-transparent);
+    color: var(--green-2);
+}
+
+.TaskBody.doing svg path[fill="#05E39C"] {
+    fill: var(--green-2);
+}
+
+.TaskBody.doing .dragIconContainer span {
+    background-color: var(--green-2);
+}
+
+.TaskBody.doing:hover {
+    background-color: var(--green-2-transparent);
+}
+
+
+/* = Task-Status Badge = */
+
+.taskStatusBadge {
+    margin-left: 15px;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+
+
+/* ===== Dragging state ===== */
+
+.TaskBody.dragging {
+    opacity: var(--dragging-opacity);
+}
+
+
+
+/* ======= Dropdown ======= */
+
+.moreDropdown {
+    position: absolute;
+    right: 0;
+    top: 90%;
+
+    height: 0;
+    border: none;
+
+    color: var(--black);
+    overflow: hidden;
+    border-radius: var(--general-border-radius);
+    background-color: var(--white);
+    z-index: 9999;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.moreDropdown > a {
+    cursor: pointer;
+    padding: 10px 20px;
+    letter-spacing: 0.3px;
+
+    display: flex;
+    align-items: center;
+}
+
+.moreDropdown > a svg,
+.moreDropdown > a i {
+    width: 20px;
+    height: 20px;
+    font-size: 1.5rem;
+    margin-right: 10px;
+}
+
+.moreDropdown .editButton:hover {
+    background-color: var(--green-2-transparent);
+    color: var(--green-1);
+}
+
+.moreDropdown .editButton:hover svg {
+    fill: var(--green-1);
+}
+
+.moreDropdown .deleteButton:hover {
+    background-color: var(--green-2-transparent);
+    color: var(--red);
+}
+
+.moreDropdown .addSubtaskButton {
+    color: var(--green-1);
+}
+
+.moreDropdown .addSubtaskButton:hover {
+    background-color: var(--green-2-transparent);
+}
+
+.moreDropdown.activeDropdown {
+    transition: height 0.15s ease, border 0.15s ease;
+    height: 135px;
+    border: 1px solid var(--green-2);
+}
