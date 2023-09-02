@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useContext } from 'react';
 import styles from './TaskActForm.module.css';
 import Button from '../../Button/Button';
 import { TASK_STATUSES } from '../../../../utils/tasks-constants-util';
+import { DailyTask } from '../../../../utils/classes-util';
 import NotificationContext from '../../../../store/notification-context';
 
 
@@ -10,12 +11,10 @@ const TaskActForm = (props) => {
   const titleInput = useRef(null),
         descriptionInput = useRef(null);
   const [data, setData] = useState({
-      id: '',
-      title: '',
-      description: '',
-      status: TASK_STATUSES.todo,
-      subtasks: new Array()
-    });
+    id: '',
+    title: '',
+    description: ''
+  });
 
 
   useEffect(() => {
@@ -66,23 +65,27 @@ const TaskActForm = (props) => {
       props.editData ?
       data.id : ('task_' + new Date().valueOf());
 
-    const modifiedData = {
-      ...data,
-      id: taskID,
-      title: data.title || 'untitled',
-      description: data.description || (props.isTodoTask ? 'without content' : 'without description')
-    }
+    // 3. Preparing the task-data object for submitting 
+    const finalTaskData = new DailyTask(
+      data.day || -1,
+      taskID,
+      data.title || 'untitled',
+      data.description,
+      data.status || TASK_STATUSES.todo,
+      data.subtasks || new Array(),
+      data.isSubtasksShown || false,
+      data.addingSubtask || false
+    );
 
-    // 3. Submiting new task data
-    props.submit(modifiedData);
+    // 4. Submiting new task data
+    props.submit(finalTaskData);
 
-    // 4. Preparing for another new task
+    // 5. Preparing for another new task
     setData({
       id: '',
       title: '',
       description: '',
-      status: TASK_STATUSES.todo,
-      subtasks: new Array()
+      
     });
     (props.isTodoTask ? descriptionInput : titleInput).current.focus();
   }
@@ -103,8 +106,6 @@ const TaskActForm = (props) => {
       id: '',
       title: '',
       description: '',
-      status: TASK_STATUSES.todo,
-      subtasks: new Array()
     });
   }
 
@@ -152,3 +153,14 @@ const TaskActForm = (props) => {
 }
 
 export default TaskActForm;
+
+
+
+rubbish: {
+      // const modifiedData = {
+    //   ...data,
+    //   id: taskID,
+    //   title: data.title || 'untitled',
+    //   description: data.description
+    // }
+}

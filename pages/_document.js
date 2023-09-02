@@ -1,5 +1,4 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document';
-import { NotificationContextProvider } from '../store/notification-context';
 
 
 class MyDocument extends Document {

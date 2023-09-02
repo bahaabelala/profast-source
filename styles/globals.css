@@ -54,6 +54,12 @@ input[type="date"] {
   outline: none;
 }
 
+/* ===== Drag & Drop Classes ===== */
+
+.dragging {
+  opacity: var(--dragging-opacity);
+}
+
 
 @media (prefers-color-scheme: dark) {
   html {

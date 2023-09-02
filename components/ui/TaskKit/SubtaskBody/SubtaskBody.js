@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { Fragment, useContext } from 'react';
 import styles from './SubtaskBody.module.css';
+import TasksContext from '../../../../store/daily-tasks/tasks-context';
 
-import Button from '../../Button/Button';
+import SubtaskAddForm from '../SubtaskAddForm/SubtaskAddForm';
+
+
 
 const SubtaskBody = (props) => {
+  const tasksCtx = useContext(TasksContext);
 	const mainStyles = [styles.Main];
   let subtaskStatusBadge = "ri-checkbox-blank-circle-line";
 	if (props.done) {
@@ -12,25 +16,31 @@ const SubtaskBody = (props) => {
   };
 
 
-  return props.isForm ? (
+  return (
     <li className={mainStyles.join(' ')}>
-      <form className={styles.subtaskForm}>
-        <input type="text" placeholder="Type subtask content" className={styles.subtaskContentInput} />
-        <Button>
-          Done
-        </Button>
-      </form>
-    </li>
-  ) : (
-    <li className={mainStyles.join(' ')}>
-      <i className={[styles.subtaskStatusBadge, subtaskStatusBadge].join(' ')}></i>
-      <p className={styles.subtaskContent}>
-        {props.children}
-      </p>
-      <i className={[styles.deleteIcon, "ri-close-circle-line"].join(' ')}></i>
+    {
+      props.isForm ? <SubtaskAddForm addingSubtask={props.addingSubtask} taskId={props.taskId} />
+        : (
+          <Fragment>
+            <i
+              className={[styles.subtaskStatusBadge, subtaskStatusBadge].join(' ')}
+              onClick={() => { tasksCtx.markSubtask(props.taskId, props.subtaskId) }}
+              ></i>
+            <p
+              className={styles.subtaskContent}
+              onClick={() => { tasksCtx.markSubtask(props.taskId, props.subtaskId) }}
+              >
+              {props.children}
+            </p>
+            <i
+              className={[styles.deleteIcon, "ri-close-circle-line"].join(' ')}
+              onClick={() => { tasksCtx.deleteSubtask(props.taskId, props.subtaskId) }}
+              ></i>
+          </Fragment>
+        )
+    }
     </li>
   );
-
 }
 
 export default SubtaskBody;

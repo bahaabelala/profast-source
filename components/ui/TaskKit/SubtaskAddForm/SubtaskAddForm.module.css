@@ -1,0 +1,25 @@
+.main {
+/*	padding: 10px 0;*/
+
+	flex-grow: 1;
+	display: flex;
+	gap: 10px;
+}
+
+.subtaskContentInput {
+	padding: 0 15px;
+	margin: 4px 0;
+	border-radius: var(--general-border-radius);
+	outline: none;
+	border: 1px solid var(--green-2);
+
+	font-family: inherit;
+
+	flex-grow: 1;
+}
+
+.subtaskContentInput:hover,
+.subtaskContentInput:focus {
+	background-color: var(--green-2-transparent);
+	transition: background-color 0.1s ease;
+}

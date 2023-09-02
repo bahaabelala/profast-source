@@ -11,8 +11,7 @@ import DayActionCenter from '../components/daily-tasks-page/DayActionCenter/DayA
 
 // Global Stores
 import TasksContext from '../store/daily-tasks/tasks-context';
-import DaysContext from '../store/daily-tasks/days-context';
-
+import DaysContext from '../store/daily-tasks/days-context'; 
 
 
 const DailyTasksPage = props => {
@@ -61,10 +60,13 @@ const DailyTasksPage = props => {
                 <TaskSet
                   key={task.id}
                   taskID={task.id}
+                  taskStatus={task.status}
+                  isSubtasksShown={task.isSubtasksShown}
+                  subtasks={task.subtasks}
+                  addingSubtask={task.addingSubtask}
                   onClicked={tasksCtx.selectTask}
                   onEditTaskClicked={() => { tasksCtx.editTask(task.id) }}
                   onDeleteTaskClicked={tasksCtx.deleteTask}
-                  taskStatus={task.status}
                   >
                   <h3>{task.title}</h3>
                   <p>{task.description}</p>
