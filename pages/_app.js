@@ -1,5 +1,6 @@
 import { Fragment, useContext } from 'react';
 import '../styles/globals.css';
+import 'remixicon/fonts/remixicon.css';
 
 import Head from 'next/head';
 
