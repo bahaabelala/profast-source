@@ -72,7 +72,15 @@ const deleteTask = (tasks, targetedTaskIndex) => {
 // > Handles Toggling Subtasks Container to open or close
 const toggleSubtasksContainer = (tasks, targetedTaskIndex) => {
 
-	// Changing the state of the subtasks container
+	// 1. Close all tasks' subtasks-container and all tasks' subtasks-forms
+	tasks.forEach(task => {
+		if (task.id !== tasks[targetedTaskIndex].id) {	
+			task.isSubtasksShown = false;
+		}
+		task.addingSubtask = false;
+	})
+
+	// 2. Changing the state of the subtasks container
   // ...by changing the isSubtasksShown Property
   tasks[targetedTaskIndex].isSubtasksShown =
   	!tasks[targetedTaskIndex].isSubtasksShown;
@@ -84,10 +92,21 @@ const toggleSubtasksContainer = (tasks, targetedTaskIndex) => {
 // > Handles toggling adding-subtask state
 const toggleAddingSubtask = (tasks, targetedTaskIndex) => {
 
-	// 1. Toggling the boolean value of adding subtask form status
+	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	
+	// 1. Close all tasks' subtasks-container and all tasks' subtasks-forms
+	tasks.forEach(task => {
+		if (task.id !== tasks[targetedTaskIndex].id) {	
+			task.addingSubtask = false;
+			task.isSubtasksShown = false;
+		}
+	})
+
+	// 2. Toggling the boolean value of adding subtask form status
 	tasks[targetedTaskIndex].addingSubtask = !tasks[targetedTaskIndex].addingSubtask;
 
-	// 2. Show subtasks container (because it might be closed while adding-subtask form
+	// 3. Show subtasks container (because it might be closed while adding-subtask form
 	// ...is opened)
 	tasks[targetedTaskIndex].isSubtasksShown = true;
 

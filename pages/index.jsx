@@ -72,6 +72,7 @@ const DailyTasksPage = props => {
                   onSubtaskFormSubmitted={tasksCtx.addSubtask}
                   onSubtaskClicked={tasksCtx.markSubtask}
                   onDeleteSubtaskClicked={tasksCtx.deleteSubtask}
+                  onCancelFormClicked={tasksCtx.toggleAddingSubtask}
                   >
                   <h3>{task.title}</h3>
                   <p>{task.description}</p>

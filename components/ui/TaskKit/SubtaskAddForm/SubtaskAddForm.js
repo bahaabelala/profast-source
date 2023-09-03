@@ -24,6 +24,8 @@ const SubtaskAddForm = props => {
 	const handleSubmitData = e => {
 		e.preventDefault();
 
+		if (subtaskContent === '') return;
+
 		// 1. Creating unique new subtask id
 		const newSubtaskId = `subtask_${new Date().valueOf()}`;
 
@@ -37,9 +39,14 @@ const SubtaskAddForm = props => {
 		setSubtaskContent('');
 	}
 
-
 	return (
-		<form className={styles.main} onSubmit={handleSubmitData}>
+		<form
+			className={styles.main} 
+			onSubmit={handleSubmitData}
+			onKeyDown={e => {
+		    if (e.key === 'Escape') props.onCancelFormClicked(props.taskId);
+		  }}
+			>
       <input
         type="text"
         placeholder="Type subtask content"

@@ -62,6 +62,7 @@ const TaskSet = (props) => {
               taskId={props.taskID} 
               addingSubtask={props.addingSubtask}
               onSubtaskFormSubmitted={props.onSubtaskFormSubmitted}
+              onCancelFormClicked={props.onCancelFormClicked}
               /> 
             : null
         }

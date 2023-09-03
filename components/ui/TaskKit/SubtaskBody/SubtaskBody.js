@@ -23,6 +23,7 @@ const SubtaskBody = (props) => {
           addingSubtask={props.addingSubtask}
           taskId={props.taskId}
           onSubtaskFormSubmitted={props.onSubtaskFormSubmitted}
+          onCancelFormClicked={props.onCancelFormClicked}
           />
         : (
           <Fragment>
