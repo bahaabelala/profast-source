@@ -9,7 +9,6 @@ import Button from '../../Button/Button';
 const SubtaskAddForm = props => {
 	const [subtaskContent, setSubtaskContent] = useState('');
 	const subtaskFormInput = useRef(null);
-	const tasksCtx = useContext(TasksContext);
 	
 
 	useEffect(() => {
@@ -32,7 +31,7 @@ const SubtaskAddForm = props => {
 		const newSubtask = new Subtask(newSubtaskId, subtaskContent);
 
 		// 3. Submitting (Adding) the new subtask
-		tasksCtx.addSubtask(props.taskId, newSubtask);
+		props.onSubtaskFormSubmitted(props.taskId, newSubtask);
 
 		// 4. Preparing for new subtask
 		setSubtaskContent('');

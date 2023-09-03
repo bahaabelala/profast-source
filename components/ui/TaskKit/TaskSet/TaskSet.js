@@ -25,9 +25,11 @@ const TaskSet = (props) => {
         taskStatus={props.taskStatus}
         isSubtasksShown={props.isSubtasksShown}
         addingSubtask={props.addingSubtask}
-        click={props.onClicked}
-        editTaskClicked={props.onEditTaskClicked}
-        deleteTaskClicked={props.onDeleteTaskClicked}
+        onTaskBodyClicked={props.onTaskBodyClicked}
+        onSubtasksArrowClicked={props.onSubtasksArrowClicked}
+        onEditTaskClicked={props.onEditTaskClicked}
+        onDeleteTaskClicked={props.onDeleteTaskClicked}
+        onAddSubtaskClicked={props.onAddSubtaskClicked}
     		>
     		{props.children}
     	</TaskBody>
@@ -40,13 +42,29 @@ const TaskSet = (props) => {
         
         {props.subtasks.map(subtask => {
           return (
-            <SubtaskBody key={subtask.id} subtaskId={subtask.id} done={subtask.isDone} taskId={props.taskID}>
+            <SubtaskBody
+              key={subtask.id}
+              subtaskId={subtask.id}
+              done={subtask.isDone}
+              taskId={props.taskID}
+              onSubtaskClicked={props.onSubtaskClicked}
+              onDeleteSubtaskClicked={props.onDeleteSubtaskClicked}
+              >
               {subtask.content}
             </SubtaskBody>
           );
         })}
 
-        {props.addingSubtask ? <SubtaskBody isForm taskId={props.taskID} addingSubtask={props.addingSubtask} /> : null}
+        {
+          props.addingSubtask ? 
+            <SubtaskBody
+              isForm
+              taskId={props.taskID} 
+              addingSubtask={props.addingSubtask}
+              onSubtaskFormSubmitted={props.onSubtaskFormSubmitted}
+              /> 
+            : null
+        }
     	
       </SubtasksContainer>
 

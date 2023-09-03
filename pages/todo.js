@@ -27,10 +27,18 @@ const TodoPage = props => {
 						<TaskSet
 							key={task.id}
               taskID={task.id}
-              onClicked={todoCtx.selectTask}
-              onEditTaskClicked={() => { todoCtx.editTask(task.id) }}
-              onDeleteTaskClicked={() => { todoCtx.deleteTask(task.id) }}
               taskStatus={task.status}
+              isSubtasksShown={task.isSubtasksShown}
+              subtasks={task.subtasks}
+              addingSubtask={task.addingSubtask}
+              onTaskBodyClicked={todoCtx.selectTask}
+              onSubtasksArrowClicked={todoCtx.toggleSubtasksContainer}
+              onEditTaskClicked={todoCtx.editTask}
+              onDeleteTaskClicked={todoCtx.deleteTask}
+              onAddSubtaskClicked={todoCtx.toggleAddingSubtask}
+              onSubtaskFormSubmitted={todoCtx.addSubtask}
+              onSubtaskClicked={todoCtx.markSubtask}
+              onDeleteSubtaskClicked={todoCtx.deleteSubtask}
 							>
 							{task.description}
 						</TaskSet>

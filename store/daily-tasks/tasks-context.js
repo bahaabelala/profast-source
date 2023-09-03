@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { setLocalStorage, getLocalStorage } from '../../utils/local-storage-util';
 import NotificationContext from '../notification-context';
-import * as tasksMethods from '../../utils/tasks-methods-util.js';
+import * as tasksMethods from '../../utils/tasks-methods-util';
 
 const TasksContext = React.createContext({
 	tasks: new Array(),
@@ -55,33 +55,27 @@ export const TasksContextProvider = props => {
 	// > Adding new task to the currently opened day
   // > OR editing some existing task
 	const handleSubmitTaskForm = (taskData, activeDay) => {
-		// 1. Checking if this task already exists, so that it will be edited
-		const updatedTasks = tasksMethods.addOrEditTask(tasks, taskData, notificationCtx, activeDay);
+
+		doTaskProcess(
+			taskData.id, 
+			tasksMethods.addOrEditTask, 
+			[taskData, notificationCtx, activeDay]
+		);
 		setEditData(null);
 
-    // 2. Updating the state
-    setTasks(updatedTasks);
-
-    // 3. Updating the local storage
-    setLocalStorage('dailyTasks', updatedTasks)
 	} 
 
 	// > Mark the selected (clicked) task as completed or uncompleted
-	const handleSelectTask = taskID => {
-		// mark the selected task
-		const updatedTasks = tasksMethods.markTask(tasks, taskID);
+	const handleSelectTask = taskId => {
+		
+		doTaskProcess(taskId, tasksMethods.selectTask, []);
 
-    // Setting the new state
-    setTasks(updatedTasks);
-
-    // Updating the local storage
-    setLocalStorage('dailyTasks', updatedTasks);
 	}
 
 	// > Handles editing task
-	const handleEditTask = taskID => {
-    // 1. Getting the data of the targetted task
-    const taskObject = tasksMethods.getEditedTaskData(tasks, taskID);
+	const handleEditTask = taskId => {
+		// 1. Getting the data of the targetted task
+	  const taskObject = tasksMethods.getEditedTaskData(taskId, tasks);
 
     // 2. Passing the data to the task action form and let the form complete the process
     if (!actingTask) handleToggleActingTask();
@@ -89,15 +83,10 @@ export const TasksContextProvider = props => {
   }
 
   // > Handles deleting task
-  const handleDeleteTask = taskID => {
-  	// 1. Removing the targetted task from the list of tasks
-    const updatedTasks = tasksMethods.deleteTask(tasks, taskID);
+  const handleDeleteTask = taskId => {
+  	
+  	doTaskProcess(taskId, tasksMethods.deleteTask, []);
 
-    // 2. Updating the state
-    setTasks(updatedTasks);
-
-    // 3. Updating the local storage
-    setLocalStorage('dailyTasks', updatedTasks)
   }
 
   // ===============================
@@ -105,97 +94,61 @@ export const TasksContextProvider = props => {
   // ===============================
 
   // > Handles switching subtasks container (toggle it to open or close)
-  const handleToggleSubtasksContainer = taskID => {
-  	// 1. Toggling the state of the container in the targeted task by its id (taskID)
-  	const updatedTasks = tasksMethods.toggleSubtasksContainer(tasks, taskID);
+  const handleToggleSubtasksContainer = taskId => {
 
-  	// 2. Updating the state
-  	setTasks(updatedTasks);
-
-  	// 3. Updating the local storage
-  	setLocalStorage('dailyTasks', updatedTasks)
+	  doTaskProcess(taskId, tasksMethods.toggleSubtasksContainer, []);
+	  
   }
 
   // > Handles switching subtask form
-  const handleToggleAddingSubtask = taskID => {
-  	const updatedTasks = [ ...tasks ];
+  const handleToggleAddingSubtask = taskId => {
 
-  	// 1. Finding the targeted task
-  	const targetedTaskIndex = updatedTasks.findIndex(task => task.id === taskID);
+  	doTaskProcess(taskId, tasksMethods.toggleAddingSubtask, []);
 
-  	// 2. Toggling the boolean value of adding subtask form status
-  	updatedTasks[targetedTaskIndex].addingSubtask = !updatedTasks[targetedTaskIndex].addingSubtask;
-
-  	// 3. Show subtasks container (because it might be closed while adding-subtask form
-  	// ...is opened)
-  	updatedTasks[targetedTaskIndex].isSubtasksShown = true;
-
-  	// 4. Updating the state
-  	setTasks(updatedTasks);
-
-  	// 5. Updating the local storage
-  	setLocalStorage('dailyTasks', updatedTasks);
   }
 
   // > Adding new subtask to a targeted task
-  const handleAddSubtask = (targetedTaskId, newSubtask) => {
-  	const updatedTasks = [ ...tasks ];
+  const handleAddSubtask = (taskId, newSubtask) => {
+
+  	doTaskProcess(taskId, tasksMethods.addSubtask, [newSubtask]);
+  	
+  }
+
+  // > Handles marking a subtask as done or non-done
+  const handleMarkSubtask = (taskId, subtaskId) => {
+
+  	doTaskProcess( taskId, tasksMethods.markSubtask, [subtaskId]);
+
+  }
+
+  // > Handles deleting a subtask
+  const handleDeleteSubtask = (taskId, subtaskId) => {
+
+  	doTaskProcess( taskId, tasksMethods.deleteSubtask, [subtaskId]);
+
+  }
+
+  // > This is for finding the targeted task and pass what-to-do-with-it as a function
+  // > You have to return the updated tasks in the processFunc
+	const doTaskProcess = (taskId, processFunc, processFuncArgs) => {
+		const processTasks = [ ...tasks ];
 
   	// 1. Finding the targeted task
-  	const targetedTaskIndex = updatedTasks.findIndex(task => task.id === targetedTaskId);
+  	const targetedTaskIndex = processTasks.findIndex(task => task.id === taskId);
 
-  	// 2. Adding the subtask to the targeted task by using its index
-  	updatedTasks[targetedTaskIndex].subtasks.push(newSubtask);
+  	// 2. Do the needed process with the targeted task
+  	// --------
+
+  	const updatedTasks = processFunc(processTasks, targetedTaskIndex, ...processFuncArgs);
+
+  	// --------
 
   	// 3. Updating the state
   	setTasks(updatedTasks);
 
   	// 4. Updating the local storage
   	setLocalStorage('dailyTasks', updatedTasks);
-  }
-
-  // > Handles marking a subtask as done or non-done
-  const handleMarkSubtask = (taskId, subtaskId) => {
-  	const updatedTasks = [ ...tasks ];
-
-  	// 1. Finding the targeted task
-  	const targetedTaskIndex = updatedTasks.findIndex(task => task.id === taskId);
-
-  	// 2. Finding the targeted subtask in the targeted task
-  	const targetedSubtaskIndex =
-  		updatedTasks[targetedTaskIndex].subtasks.findIndex(subtask => subtask.id === subtaskId);
-
-  	// 3. Marking the targeted subtask
-  	updatedTasks[targetedTaskIndex].subtasks[targetedSubtaskIndex].isDone =
-  		!updatedTasks[targetedTaskIndex].subtasks[targetedSubtaskIndex].isDone;
-
-  	// 4. Updating the state
-  	setTasks(updatedTasks);
-
-  	// 5. Updating the local storage
-  	setLocalStorage('dailyTasks', updatedTasks);
-  }
-
-  // > Handles deleting a subtask
-  const handleDeleteSubtask = (taskId, subtaskId) => {
-  	const updatedTasks = [ ...tasks ];
-
-  	// 1. Finding the targeted task
-  	const targetedTaskIndex = updatedTasks.findIndex(task => task.id === taskId);
-
-  	// 2. Finding the targeted subtask in the targeted task
-  	const targetedSubtaskIndex =
-  		updatedTasks[targetedTaskIndex].subtasks.findIndex(subtask => subtask.id === subtaskId);
-
-  	// 3. Marking the targeted subtask
-  	updatedTasks[targetedTaskIndex].subtasks.splice(targetedSubtaskIndex, 1);
-
-  	// 4. Updating the state
-  	setTasks(updatedTasks);
-
-  	// 5. Updating the local storage
-  	setLocalStorage('dailyTasks', updatedTasks);
-  }
+	}
 
 	// ==========================================
 
@@ -226,7 +179,5 @@ export const TasksContextProvider = props => {
 		</TasksContext.Provider>
 	);
 }
-
-
 
 export default TasksContext;

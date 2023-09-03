@@ -12,7 +12,6 @@ import TasksContext from '../../../../store/daily-tasks/tasks-context';
 
 const TaskBody = (props) => {
   const [isDropActive, setIsDropActive] = useState(false);
-  const tasksCtx = useContext(TasksContext);
   const dropdownRef = useRef(null);
   const taskStatusIconClass = (
       props.taskStatus === 'done' ? "ri-checkbox-circle-fill"
@@ -24,7 +23,7 @@ const TaskBody = (props) => {
     const taskEl = e.target.closest(`.${styles.TaskBody}`);
 
     // 1. handling the click event (changing the status of the task)
-    props.click(props.taskID);
+    props.onTaskBodyClicked(props.taskID);
 
     // 2. Style this task as todo, doing, or done
     taskEl.classlist = Array.from(taskEl.classList).pop();
@@ -76,7 +75,7 @@ const TaskBody = (props) => {
           styles.subtasksArrow,
           props.isSubtasksShown ? styles.active : ''
         ].join(' ')}
-        onClick={() => { tasksCtx.toggleSubtasksContainer(props.taskID) }}
+        onClick={() => { props.onSubtasksArrowClicked(props.taskID) }}
         ></i>
 
       {/* ========================== */}
@@ -104,14 +103,17 @@ const TaskBody = (props) => {
         className={[styles.moreDropdown, isDropActive ? styles.activeDropdown : ''].join(' ')}
         ref={dropdownRef}
         >
-        <a onClick={props.editTaskClicked} className={styles.editButton}>
+        <a onClick={() => {
+          props.onEditTaskClicked(props.taskID);
+          setIsDropActive(false);
+          }} className={styles.editButton}>
           <EditIcon /> Edit
         </a>
-        <a onClick={() => { props.deleteTaskClicked(props.taskID) }} className={styles.deleteButton}>
+        <a onClick={() => { props.onDeleteTaskClicked(props.taskID) }} className={styles.deleteButton}>
           <i className="ri-close-circle-line"></i> Delete
         </a>
         <a onClick={() => {
-            tasksCtx.toggleAddingSubtask(props.taskID);
+            props.onAddSubtaskClicked(props.taskID);
             setIsDropActive(false);
           }} className={styles.addSubtaskButton}>
           <AddIcon /> Add Subtask

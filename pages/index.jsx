@@ -64,9 +64,14 @@ const DailyTasksPage = props => {
                   isSubtasksShown={task.isSubtasksShown}
                   subtasks={task.subtasks}
                   addingSubtask={task.addingSubtask}
-                  onClicked={tasksCtx.selectTask}
-                  onEditTaskClicked={() => { tasksCtx.editTask(task.id) }}
+                  onTaskBodyClicked={tasksCtx.selectTask}
+                  onSubtasksArrowClicked={tasksCtx.toggleSubtasksContainer}
+                  onEditTaskClicked={tasksCtx.editTask}
                   onDeleteTaskClicked={tasksCtx.deleteTask}
+                  onAddSubtaskClicked={tasksCtx.toggleAddingSubtask}
+                  onSubtaskFormSubmitted={tasksCtx.addSubtask}
+                  onSubtaskClicked={tasksCtx.markSubtask}
+                  onDeleteSubtaskClicked={tasksCtx.deleteSubtask}
                   >
                   <h3>{task.title}</h3>
                   <p>{task.description}</p>

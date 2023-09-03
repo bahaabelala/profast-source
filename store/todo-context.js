@@ -12,7 +12,15 @@ const TodoContext = createContext({
 	selectTask: taskID => {},
 	editTask: (taskID, newTaskData) => {},
 	deleteTask: taskID => {},
-	deleteAllTasks: () => {}
+	deleteAllTasks: () => {},
+
+	/* ========= SUBTASKs METHODs ========= */ 
+
+	toggleSubtasksContainer: taskID => {},
+	toggleAddingSubtask: taskID => {},
+	addSubtask: (targetedTaskId, newSubtask) => {},
+	markSubtask: (taskId, subtaskId) => {},
+	deleteSubtask: (taskId, subtaskId) => {}	
 });
 
 export const TodoContextProvider = props => {
@@ -47,46 +55,30 @@ export const TodoContextProvider = props => {
 
 	// > Adding task procedure
 	const handleSubmitTaskForm = taskData => {
-		// 1. Checking if this process is editing an existing task or adding new task,
-		//			then doing the proper process
-		const updatedTasks = tasksMethods.addOrEditTask(tasks, taskData, notificationCtx);
+
+		doTaskProcess(taskData.id, tasksMethods.addOrEditTask, [taskData, notificationCtx]);
 		setEditData(null);
-
-		// 2. updating the list in the state
-		setTasks(updatedTasks);
-
-		// 3. update the local storage
-		setLocalStorage('todoTasks', updatedTasks)
+	
 	}
 
 	// > Mark the selected (clicked) task as completed or uncompleted
-	const handleSelectTask = taskID => {
-		// 1. mark the selected task
-		const updatedTasks = tasksMethods.markTask(tasks, taskID);
+	const handleSelectTask = taskId => {
 
-    // 2. Setting the new state
-    setTasks(updatedTasks);
+		doTaskProcess(taskId, tasksMethods.selectTask, []);
 
-    // 3. Updating the local storage
-    setLocalStorage('todoTasks', updatedTasks)
 	}
 
 	// > Deleting task procedure
-	const handleDeleteTask = taskID => {
-		// 1. Removing the targetted task from the list of tasks
-    const updatedTasks = tasksMethods.deleteTask(tasks, taskID);
+	const handleDeleteTask = taskId => {
 
-    // 2. Updating the state
-    setTasks(updatedTasks);
-
-    // 3. Updating the local storage
-    setLocalStorage('todoTasks', updatedTasks);
+		doTaskProcess(taskId, tasksMethods.deleteTask, []);
+	
 	}
 
 	// > Editing task procedure
-	const handleEditTask = taskID => {
+	const handleEditTask = taskId => {
 		// 1. Getting the data of the targetted task
-    const taskObject = tasksMethods.getEditedTaskData(tasks, taskID);
+    const taskObject = tasksMethods.getEditedTaskData(taskId, tasks);
 
     // 2. Passing the data to the task action form and let the form complete the process
     if (!actingTask) handleToggleActingTask();
@@ -109,6 +101,66 @@ export const TodoContextProvider = props => {
 		setLocalStorage('todoTasks', new Array());
 	}
 
+	// ===============================
+  // == SUBTASKs SPECIFIC METHODs ==
+  // ===============================
+
+  // > Handles switching subtasks container (toggle it to open or close)
+  const handleToggleSubtasksContainer = taskId => {
+
+	  doTaskProcess(taskId, tasksMethods.toggleSubtasksContainer, []);
+	  
+  }
+
+  // > Handles switching subtask form
+  const handleToggleAddingSubtask = taskId => {
+
+  	doTaskProcess(taskId, tasksMethods.toggleAddingSubtask, []);
+
+  }
+
+  // > Adding new subtask to a targeted task
+  const handleAddSubtask = (taskId, newSubtask) => {
+
+  	doTaskProcess(taskId, tasksMethods.addSubtask, [newSubtask]);
+  	
+  }
+
+  // > Handles marking a subtask as done or non-done
+  const handleMarkSubtask = (taskId, subtaskId) => {
+
+  	doTaskProcess( taskId, tasksMethods.markSubtask, [subtaskId]);
+
+  }
+
+  // > Handles deleting a subtask
+  const handleDeleteSubtask = (taskId, subtaskId) => {
+
+  	doTaskProcess( taskId, tasksMethods.deleteSubtask, [subtaskId]);
+
+  }
+
+	// > This is for finding the targeted task and pass what-to-do-with-it as a function
+  // > You have to return the updated tasks in the processFunc
+	const doTaskProcess = (taskId, processFunc, processFuncArgs) => {
+		const processTasks = [ ...tasks ];
+
+  	// 1. Finding the targeted task
+  	const targetedTaskIndex = processTasks.findIndex(task => task.id === taskId);
+
+  	// 2. Do the needed process with the targeted task
+  	// --------
+
+  	const updatedTasks = processFunc(processTasks, targetedTaskIndex, ...processFuncArgs);
+
+  	// --------
+
+  	// 3. Updating the state
+  	setTasks(updatedTasks);
+
+  	// 4. Updating the local storage
+  	setLocalStorage('todoTasks', updatedTasks);
+	}
 
 	// ==========================================
 
@@ -123,7 +175,15 @@ export const TodoContextProvider = props => {
 		editTask: handleEditTask,
 		toggleActingTask: handleToggleActingTask,
 		selectTask: handleSelectTask,
-		deleteAllTasks: handleDeleteAllTasks
+		deleteAllTasks: handleDeleteAllTasks,
+
+		/* ========= SUBTASKs METHODs ========= */ 
+		
+		toggleSubtasksContainer: handleToggleSubtasksContainer,
+		toggleAddingSubtask: handleToggleAddingSubtask,
+		addSubtask: handleAddSubtask,
+		markSubtask: handleMarkSubtask,
+		deleteSubtask: handleDeleteSubtask
 	};
 
 	return (
