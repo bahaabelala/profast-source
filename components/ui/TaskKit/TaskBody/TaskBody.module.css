@@ -9,7 +9,7 @@
     transition: border-radius 0.1s ease 0.1s;
 
     display: flex;
-    align-items: center;
+    align-items: stretch;
 }
 
 .TaskBody:hover {
@@ -42,7 +42,7 @@
 }
 
 .taskContent {
-    margin: 0 10px 0 5px;
+    padding: 0 10px 0 5px;
     cursor: pointer;
     letter-spacing: 0.5px;
 
@@ -55,12 +55,19 @@
     margin: 5px;
 }
 
+
+/* ======= Subtasks-Arrow Styles ======= */
+
 .subtasksArrow {
     rotate: -90deg;
     margin: 0 15px;
     cursor: pointer;
 
     font-size: 1.6rem;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .subtasksArrow:hover {
@@ -146,9 +153,13 @@
 /* = Task-Status Badge = */
 
 .taskStatusBadge {
-    margin-left: 15px;
+    padding-left: 15px;
     font-size: 2rem;
     cursor: pointer;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 

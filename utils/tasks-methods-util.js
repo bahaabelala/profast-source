@@ -92,9 +92,6 @@ const toggleSubtasksContainer = (tasks, targetedTaskIndex) => {
 // > Handles toggling adding-subtask state
 const toggleAddingSubtask = (tasks, targetedTaskIndex) => {
 
-	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	
 	// 1. Close all tasks' subtasks-container and all tasks' subtasks-forms
 	tasks.forEach(task => {
 		if (task.id !== tasks[targetedTaskIndex].id) {	
