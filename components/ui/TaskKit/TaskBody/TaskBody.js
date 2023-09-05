@@ -11,8 +11,8 @@ import TasksContext from '../../../../store/daily-tasks/tasks-context';
 
 
 const TaskBody = (props) => {
-  const [isDropActive, setIsDropActive] = useState(false);
-  const dropdownRef = useRef(null);
+  const [isActionCenterActive, setIsActionCenterActive] = useState(false);
+  const actionCenterRef = useRef(null);
   const taskStatusIconClass = (
       props.taskStatus === 'done' ? "ri-checkbox-circle-fill"
       : props.taskStatus === 'doing' ? "ri-time-fill" : "ri-checkbox-blank-circle-line"
@@ -30,15 +30,15 @@ const TaskBody = (props) => {
     taskEl.classList.add(styles[props.taskStatus]);
   }
 
-  // Toggling task more-icon dropdown to edit or delete
-  const handleActivateDropdown = () => {
-    setIsDropActive(prevState => !prevState);
+  // Toggling task more-icon action center to edit or delete
+  const handleToggleActionCenter = () => {
+    setIsActionCenterActive(prevState => !prevState);
   }
 
-  // Handle Clicking outside the dropdown container ( + more-icon container )
-  useClickOutside(dropdownRef, e => {
+  // Handle Clicking outside the action center container ( + more-icon container )
+  useClickOutside(actionCenterRef, e => {
     if (!e.target.closest(`.${props.taskID}`)) {
-      setIsDropActive(false)
+      setIsActionCenterActive(false)
     } 
   });
 
@@ -67,58 +67,90 @@ const TaskBody = (props) => {
         {props.children}
       </div>
 
-      {/* ===== Subtasks Arrow ===== */}
+      {/* =============================================== */}
+      {/* ==== Subtasks Buttons (Arrow & Add Button) ==== */}
+      {/* =============================================== */}
 
-      <i
-        className={[
-          "ri-play-circle-line",
-          styles.subtasksArrow,
-          props.isSubtasksShown ? styles.active : ''
-        ].join(' ')}
-        onClick={() => { props.onSubtasksArrowClicked(props.taskID) }}
-        ></i>
+      <div className={styles.subtasksBtnsContainer}>
+
+        {
+          props.isThereSubtasks ?
+            <i
+              className={[
+                "ri-play-circle-line",
+                styles.subtasksArrow,
+                props.isSubtasksShown ? styles.active : ''
+              ].join(' ')}
+              onClick={() => { props.onSubtasksArrowClicked(props.taskID) }}
+              title={props.isSubtasksShown ? "Hide Subtasks" : "Show Subtasks"}
+              >  
+            </i>
+            : null
+        }
+
+        <a
+          onClick={() => {
+              props.onAddSubtaskClicked(props.taskID);
+              setIsActionCenterActive(false);
+            }}
+          className={styles.addSubtaskButton}
+          title="Add a Subtask"
+          >
+          <AddIcon />
+        </a>
+      </div>
 
       {/* ========================== */}
 
-      <div
-        className={[
-            styles.moreIconContainer,
-            /* note: this class is for this element to be unique (NOT for styling) */
-            /* ==> for handling clicking outside */
-            props.taskID
-          ].join(' ')}
-        onClick={handleActivateDropdown}
-        >
-        <MoreIcon />
-      </div>
+      {
+        !isActionCenterActive ?
+          <div
+            className={[
+                styles.moreIconContainer,
+                /* note: this class is for this element to be unique (NOT for styling) */
+                /* ==> for handling clicking outside */
+                props.taskID
+              ].join(' ')}
+            onClick={handleToggleActionCenter}
+            >
+            <MoreIcon />
+          </div>
+          : null
+      }
+    
+
+      {/* ====================================== */}
+      {/* ======== TASK ACTION CENTER ========== */}
+      {/* ====================================== */}
 
 
-
-      {/* ============================ */}
-      {/* ======== DROPDOWN ========== */}
-      {/* ============================ */}
-
-
-      <div
-        className={[styles.moreDropdown, isDropActive ? styles.activeDropdown : ''].join(' ')}
-        ref={dropdownRef}
-        >
-        <a onClick={() => {
-          props.onEditTaskClicked(props.taskID);
-          setIsDropActive(false);
-          }} className={styles.editButton}>
-          <EditIcon /> Edit
-        </a>
-        <a onClick={() => { props.onDeleteTaskClicked(props.taskID) }} className={styles.deleteButton}>
-          <i className="ri-close-circle-line"></i> Delete
-        </a>
-        <a onClick={() => {
-            props.onAddSubtaskClicked(props.taskID);
-            setIsDropActive(false);
-          }} className={styles.addSubtaskButton}>
-          <AddIcon /> Add Subtask
-        </a>
-      </div>
+      {
+        isActionCenterActive ?
+          <div
+            className={styles.actionCenter}
+            ref={actionCenterRef}
+            >
+            <a
+              onClick={() => {
+                  props.onEditTaskClicked(props.taskID);
+                  setIsActionCenterActive(false);
+                }}
+              className={styles.editButton}
+              title="Edit Task"
+              >
+              <EditIcon />
+            </a>
+            <a
+              onClick={() => { props.onDeleteTaskClicked(props.taskID) }}
+              className={styles.deleteButton}
+              title="Delete Task"
+              >
+              <i className="ri-close-circle-line"></i>
+            </a>
+          </div>
+          : null
+      }
+      
 
     </div>
   )

@@ -56,26 +56,36 @@
 }
 
 
-/* ======= Subtasks-Arrow Styles ======= */
+/* ======= Subtasks Buttons Styles ======= */
 
-.subtasksArrow {
-    rotate: -90deg;
+.subtasksBtnsContainer {
     margin: 0 15px;
-    cursor: pointer;
 
-    font-size: 1.6rem;
+    display: flex;
+    align-items: center;
+}
+
+.subtasksBtnsContainer > * {
+    margin: 3px;
+    cursor: pointer;
 
     display: inline-flex;
     align-items: center;
     justify-content: center;
 }
 
-.subtasksArrow:hover {
+.subtasksArrow {
+    rotate: -90deg;
+
+    font-size: 1.6rem;
+}
+
+.subtasksArrow:hover, .addSubtaskButton:hover {
     scale: 1.1;
     transition: scale 0.1s ease;
 }
 
-.subtasksArrow:active {
+.subtasksArrow:active, .addSubtaskButton:active {
     scale: 0.9;
 }
 
@@ -86,6 +96,11 @@
 
 .TaskBody.withSubtasksShown {
     border-radius: var(--general-border-radius) var(--general-border-radius) 0 0;
+}
+
+.addSubtaskButton svg {
+    width: 22px;
+    height: 22px;
 }
 
 /* ===============================
@@ -128,6 +143,24 @@
     background-color: var(--green-2);
 }
 
+.TaskBody.done .addSubtaskButton svg {
+    fill: var(--white);
+}
+
+.TaskBody.done .actionCenter {
+    fill: var(--white);
+    color: var(--white);
+    border-color: var(--white);
+}
+
+.TaskBody.done .actionCenter a:hover {
+    fill: var(--green-1);
+    color: var(--red);
+}
+
+.TaskBody.done .actionCenter > *:hover {
+    background-color: var(--white);
+}
 
 /* doing status */
 
@@ -163,68 +196,72 @@
 }
 
 
-/* ======= Dropdown ======= */
+/* ======= Task Action Center ======= */
 
-.moreDropdown {
-    position: absolute;
-    right: 0;
-    top: 90%;
+.actionCenter {
+    animation: open-action-center 0.2s ease forwards;
 
-    height: 0;
-    border: none;
-
-    color: var(--black);
+    color: var(--green-2);
+    fill: var(--green-2);
+    border-top: 3px solid var(--green-2);
+    border-bottom: 3px solid var(--green-2);
     overflow: hidden;
-    border-radius: var(--general-border-radius);
-    background-color: var(--white);
-    z-index: 9999;
+    padding: 0 5px;
 
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.moreDropdown > a {
-    cursor: pointer;
-    padding: 10px 20px;
-    letter-spacing: 0.3px;
-
-    display: flex;
+    justify-content: space-between;
     align-items: center;
 }
 
-.moreDropdown > a svg,
-.moreDropdown > a i {
+.actionCenter > a {
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.actionCenter > a svg,
+.actionCenter > a i {
     width: 20px;
     height: 20px;
     font-size: 1.5rem;
-    margin-right: 10px;
 }
 
-.moreDropdown .editButton:hover {
-    background-color: var(--green-2-transparent);
-    color: var(--green-1);
+.actionCenter .editButton:hover {
+    background-color: var(--green-1);
 }
 
-.moreDropdown .editButton:hover svg {
-    fill: var(--green-1);
+.actionCenter .deleteButton:hover {
+    background-color: var(--red);
 }
 
-.moreDropdown .deleteButton:hover {
-    background-color: var(--green-2-transparent);
-    color: var(--red);
+.actionCenter .editButton:hover,
+.actionCenter .deleteButton:hover {
+    fill: var(--white);
+    color: var(--white);
+
+    transition-property: background-color, color, fill;
+    transition-duration: 0.2s;
+    transition-timing-function: ease;
 }
 
-.moreDropdown .addSubtaskButton {
-    color: var(--green-1);
-}
 
-.moreDropdown .addSubtaskButton:hover {
-    background-color: var(--green-2-transparent);
-}
 
-.moreDropdown.activeDropdown {
-    transition: height 0.15s ease, border 0.15s ease;
-    height: 135px;
-    border: 1px solid var(--green-2);
+
+/* ========================= */
+/* ======= KEYFRAMEs ======= */
+/* ========================= */
+
+@keyframes open-action-center {
+    0% {
+        width: 0;
+        border-radius: 0;
+    }
+    100% {
+        width: 75px;
+        border-radius: 3px;
+    }
 }

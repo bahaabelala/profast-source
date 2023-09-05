@@ -25,6 +25,7 @@ const TaskSet = (props) => {
         taskStatus={props.taskStatus}
         isSubtasksShown={props.isSubtasksShown}
         addingSubtask={props.addingSubtask}
+        isThereSubtasks={props.subtasks.length > 0}
         onTaskBodyClicked={props.onTaskBodyClicked}
         onSubtasksArrowClicked={props.onSubtasksArrowClicked}
         onEditTaskClicked={props.onEditTaskClicked}
@@ -43,7 +44,7 @@ const TaskSet = (props) => {
         {props.subtasks.map(subtask => {
           return (
             <SubtaskBody
-              key={subtask.id}
+              key={subtask.id}  
               subtaskId={subtask.id}
               done={subtask.isDone}
               taskId={props.taskID}

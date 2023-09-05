@@ -105,7 +105,12 @@ const toggleAddingSubtask = (tasks, targetedTaskIndex) => {
 
 	// 3. Show subtasks container (because it might be closed while adding-subtask form
 	// ...is opened)
-	tasks[targetedTaskIndex].isSubtasksShown = true;
+	// NOTE: If there are NOT any subtasks, the subtasks container will hide with the form;
+	// ...not to make the container opened with no subtasks in it!
+	tasks[targetedTaskIndex].isSubtasksShown =
+		tasks[targetedTaskIndex].subtasks.length === 0 ?
+			tasks[targetedTaskIndex].addingSubtask
+			: true;
 
 	return tasks;
 
@@ -145,6 +150,11 @@ const deleteSubtask = (tasks, targetedTaskIndex, subtaskId) => {
 
 	// 2. Marking the targeted subtask
 	tasks[targetedTaskIndex].subtasks.splice(targetedSubtaskIndex, 1);
+
+	// 3. Close Subtasks Container if there are NOT any more subtasks
+	// ...not to make the container opened with no subtasks in it!
+	if (tasks[targetedTaskIndex].subtasks.length === 0)
+		toggleSubtasksContainer(tasks, targetedTaskIndex);
 
 	return tasks;
 
