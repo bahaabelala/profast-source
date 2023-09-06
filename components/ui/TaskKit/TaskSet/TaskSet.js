@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './TaskSet.module.css';
+import subtasksContainerStyles from '../SubtasksContainer/SubtasksContainer.module.css';
 
 import TaskBody from '../TaskBody/TaskBody';
 import SubtasksContainer from '../SubtasksContainer/SubtasksContainer';
@@ -10,6 +11,7 @@ import {
 } from '../../../../utils/drag-util.js';
 
 const TaskSet = (props) => {
+
   return (
     <div
       className={styles.Main}

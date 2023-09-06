@@ -1,6 +1,7 @@
 import React, { Fragment, useContext } from 'react';
 import styles from './SubtaskBody.module.css';
 import TasksContext from '../../../../store/daily-tasks/tasks-context';
+import { handleDragStart, handleDragEnd } from '../../../../utils/drag-util.js';
 
 import SubtaskAddForm from '../SubtaskAddForm/SubtaskAddForm';
 

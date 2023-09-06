@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './TasksContainer.module.css';
+import subtasksContainerStyles from '../SubtasksContainer/SubtasksContainer.module.css';
 import { handleDragOver } from '../../../../utils/drag-util';
 
 const TasksContainer = (props) => {

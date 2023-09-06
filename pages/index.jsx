@@ -85,13 +85,13 @@ const DailyTasksPage = props => {
           editData={tasksCtx.editData}
           active={tasksCtx.actingTask}
           submit={(data) => { tasksCtx.submitTaskForm(data, daysCtx.activeDay) }}
-          onCancelFormProcess={tasksCtx.toggleActingTask}
+          onCancelFormProcess={tasksCtx.closeTaskActForm}
           />
 
       </TasksContainer>
       
       <DayActionCenter
-        onAddTaskClicked={tasksCtx.toggleActingTask}
+        onAddTaskClicked={tasksCtx.openTaskActForm}
         onDeleteActiveDayClicked={daysCtx.deleteActiveDay}
          />
 

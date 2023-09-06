@@ -7,7 +7,8 @@ const TasksContext = React.createContext({
 	tasks: new Array(),
 	actingTask: false,
 	editData: null,
-	toggleActingTask: () => {},
+	closeTaskActForm: () => {},
+	openTaskActForm: () => {},
 	submitTaskForm: (taskData, activeDay) => {},
 	selectTask: taskID => {},
 	editTask: taskData => {},
@@ -37,8 +38,8 @@ export const TasksContextProvider = props => {
 
 	// ================ METHODS =================
 
-	// > By setting this, the new-task form is opened or closed
-	const handleToggleActingTask = () => {
+	// > By setting this, the task-action form is closed
+	const handleCloseTaskActForm = () => {
 		
 		setActingTask(prevState => {
 
@@ -46,11 +47,17 @@ export const TasksContextProvider = props => {
 			if (prevState)
 				setEditData(null);
 
-			return !prevState;
+			return false;
 
 		});
 	
 	}
+
+	// > Tp open the task-action form
+	const handleOpenTaskActForm = () => {
+		setActingTask(true)
+	}
+
 
 	// > Adding new task to the currently opened day
   // > OR editing some existing task
@@ -78,7 +85,7 @@ export const TasksContextProvider = props => {
 	  const taskObject = tasksMethods.getEditedTaskData(taskId, tasks);
 
     // 2. Passing the data to the task action form and let the form complete the process
-    if (!actingTask) handleToggleActingTask();
+    if (!actingTask) handleOpenTaskActForm();
     setEditData(taskObject);
   }
 
@@ -158,7 +165,8 @@ export const TasksContextProvider = props => {
 		tasks: tasks,
 		actingTask: actingTask,
 		editData: editData,
-		toggleActingTask: handleToggleActingTask,
+		closeTaskActForm: handleCloseTaskActForm,
+		openTaskActForm: handleOpenTaskActForm,
 		submitTaskForm: handleSubmitTaskForm,
 		selectTask: handleSelectTask,
 		editTask: handleEditTask,

@@ -7,7 +7,8 @@ const TodoContext = createContext({
 	tasks: new Array(),
 	actingTask: false,
 	editData: null,
-	toggleActingTask: () => {},
+	closeTaskActForm: () => {},
+	openTaskActForm: () => {},
 	submitTaskForm: taskContent => {},
 	selectTask: taskID => {},
 	editTask: (taskID, newTaskData) => {},
@@ -38,18 +39,24 @@ export const TodoContextProvider = props => {
 
 	// ================ METHODS =================
 
-	// > To open or close the form
-	const handleToggleActingTask = () => {
-
+	// > By setting this, the task-action form is closed
+	const handleCloseTaskActForm = () => {
+		
 		setActingTask(prevState => {
 
+			// To remove any data in the form fields before closing the form
 			if (prevState)
 				setEditData(null);
 
-			return !prevState;
+			return false;
 
 		});
-		
+	
+	}
+
+	// > Tp open the task-action form
+	const handleOpenTaskActForm = () => {
+		setActingTask(true)
 	}
 
 
@@ -81,7 +88,7 @@ export const TodoContextProvider = props => {
     const taskObject = tasksMethods.getEditedTaskData(taskId, tasks);
 
     // 2. Passing the data to the task action form and let the form complete the process
-    if (!actingTask) handleToggleActingTask();
+    if (!actingTask) handleOpenActingTask();
     setEditData(taskObject);
 	}
 
@@ -173,7 +180,8 @@ export const TodoContextProvider = props => {
 		submitTaskForm: handleSubmitTaskForm,
 		deleteTask: handleDeleteTask,
 		editTask: handleEditTask,
-		toggleActingTask: handleToggleActingTask,
+		closeTaskActForm: handleCloseTaskActForm,
+		openTaskActForm: handleOpenTaskActForm,
 		selectTask: handleSelectTask,
 		deleteAllTasks: handleDeleteAllTasks,
 
