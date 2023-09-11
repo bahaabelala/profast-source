@@ -6,7 +6,10 @@ const SubtasksContainer = (props) => {
 
   return (
     <ol
-      className={[styles.Main, !props.isActive ? styles.closed : ''].join(' ')}
+      className={[styles.Main, !props.isActive ? styles.closed : styles.active].join(' ')}
+      // onDragOver={e => {
+      //   handleDragOver(e, styles.TasksContainer);
+      // }}
       >
     	{props.children}
     </ol>

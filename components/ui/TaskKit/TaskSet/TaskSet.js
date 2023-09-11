@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './TaskSet.module.css';
-import subtasksContainerStyles from '../SubtasksContainer/SubtasksContainer.module.css';
 
 import TaskBody from '../TaskBody/TaskBody';
 import SubtasksContainer from '../SubtasksContainer/SubtasksContainer';
@@ -11,13 +10,15 @@ import {
 } from '../../../../utils/drag-util.js';
 
 const TaskSet = (props) => {
+  // This state property is for dragging by the drag icon
+  const [isDraggable, setIsDraggable] = useState(false);
 
   return (
     <div
       className={styles.Main}
-      onDragStart={e => { handleDragStart(e, 'dragging') }}
-      onDragEnd={e => { handleDragEnd(e, 'dragging') }}
-      draggable
+      onDragStart={e => { handleDragStart(e.target, 'dragging') }}
+      onDragEnd={e => { handleDragEnd(e.target, 'dragging') }}
+      draggable={isDraggable}
       >
 
 			{/* ======== THE MAIN TASK ========= */}
@@ -33,6 +34,8 @@ const TaskSet = (props) => {
         onEditTaskClicked={props.onEditTaskClicked}
         onDeleteTaskClicked={props.onDeleteTaskClicked}
         onAddSubtaskClicked={props.onAddSubtaskClicked}
+        onMakeDraggable={() => { setIsDraggable(true) }}
+        onMakeUndraggable={() => { setIsDraggable(false) }}
     		>
     		{props.children}
     	</TaskBody>

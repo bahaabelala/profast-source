@@ -106,15 +106,18 @@ export const DaysContextProvider = props => {
 		// 2. Removing the day from the list of days
 		updatedDays.splice(deletedDayIndex, 1);
 
-		// 3. Updating the state
+		// 3. Delete the tasks of this deleted day
+		dailyTasksCtx.deleteDayTasks(activeDay);
+
+		// 4. Updating the state
 		setDays(updatedDays);
 		setActiveDay(-1);
 
-		// 4. Closing the form of daily tasks, IF IT IS OPENED
+		// 5. Closing the form of daily tasks, IF IT IS OPENED
 		if (dailyTasksCtx.actingTask)
 			dailyTasksCtx.toggleActingTask();
 
-		// 5. Updating the local storage
+		// 6. Updating the local storage
 		setLocalStorage('days', updatedDays);
 	}
 

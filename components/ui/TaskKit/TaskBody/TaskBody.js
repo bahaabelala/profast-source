@@ -1,5 +1,6 @@
 import React, { useState, useRef, useContext } from 'react';
 import styles from './TaskBody.module.css';
+import taskSetClasses from '../TaskSet/TaskSet';
 
 import DragIcon from '../../../icons/DragIcon';
 import MoreIcon from '../../../icons/MoreIcon';
@@ -49,7 +50,12 @@ const TaskBody = (props) => {
       styles[props.taskStatus],
       props.isSubtasksShown ? styles.withSubtasksShown : ''
         ].join(' ')}>
-      <div className={styles.dragIconContainer}>
+
+      <div
+        className={styles.dragIconContainer}
+        onMouseDown={props.onMakeDraggable}
+        onMouseLeave={props.onMakeUndraggable}
+        >
         <DragIcon />
       </div>
 

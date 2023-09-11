@@ -27,7 +27,7 @@
 	transition: background-color 0.1s ease, color 0.1s ease;
 }
 
-.Button:hover svg path[fill="#26a69a"] {
+.Button:hover svg {
 	fill: var(--white);
 }
 

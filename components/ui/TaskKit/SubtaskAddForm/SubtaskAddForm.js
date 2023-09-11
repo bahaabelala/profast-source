@@ -49,7 +49,7 @@ const SubtaskAddForm = props => {
 			>
       <input
         type="text"
-        placeholder="Type subtask content"
+        placeholder="Type a new subtask content"
         className={styles.subtaskContentInput}
         ref={subtaskFormInput}
         onChange={handleChangeSubtaskContent}

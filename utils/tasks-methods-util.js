@@ -46,16 +46,16 @@ const selectTask = (tasks, targetedTaskIndex) => {
 }
 
 // > Handles editing a task
-const getEditedTaskData = (taskId, tasksList) => {
-	const tasks = [ ...tasksList ]
+const getEditedData = (itemId, list) => {
+	const itemsList = [ ...list ]
 
 	// 1. Finding the index of the targeted task
-  const targetedTaskIndex = tasks.findIndex(task => task.id === taskId);
+  const targetedItemIndex = itemsList.findIndex(item => item.id === itemId);
 
-  // 2. Getting the targeted task from the list of tasks by its id
-  const taskObject = { ...tasks[targetedTaskIndex] }
+  // 2. Getting the targeted item from the list of items by its id
+  const itemObject = { ...itemsList[targetedTaskIndex] }
 
-  return taskObject;
+  return itemObject;
 
 }
 
@@ -68,6 +68,29 @@ const deleteTask = (tasks, targetedTaskIndex) => {
 	return tasks;
 
 }
+
+// > Handles deleting day-specific tasks
+const deleteDayTasks = (tasks, deletedDayId) => {
+	const updatedTasks = [ ...tasks ];
+
+	// Removing the day-specific tasks from the list of tasks
+	for (let i = 0; i < updatedTasks.length; i++) {
+		if (updatedTasks[i].day === deletedDayId) {
+			updatedTasks.splice(i, 1);
+			i--;
+		}
+	}
+
+	return updatedTasks;
+
+}
+
+
+
+
+// ==================================================
+// ================ SUBTASKs METHODs ================
+// ==================================================
 
 // > Handles Toggling Subtasks Container to open or close
 const toggleSubtasksContainer = (tasks, targetedTaskIndex) => {
@@ -163,8 +186,9 @@ const deleteSubtask = (tasks, targetedTaskIndex, subtaskId) => {
 export {
 	addOrEditTask,
 	selectTask,
-	getEditedTaskData,
+	getEditedData,
 	deleteTask,
+	deleteDayTasks,
 	toggleSubtasksContainer,
 	toggleAddingSubtask,
 	addSubtask,

@@ -17,7 +17,12 @@ const SubtaskBody = (props) => {
 
 
   return (
-    <li className={mainStyles.join(' ')}>
+    <li
+      className={mainStyles.join(' ')}
+      onDragStart={e => { handleDragStart(e.target, 'dragging') }}
+      onDragEnd={e => { handleDragEnd(e.target, 'dragging') }}
+      draggable
+      >
     {
       props.isForm ?
         <SubtaskAddForm

@@ -51,12 +51,12 @@ const TodoPage = props => {
 					editData={todoCtx.editData}
 					active={todoCtx.actingTask}
 					submit={todoCtx.submitTaskForm}
-					onCancelFormProcess={todoCtx.toggleActingTask} />
+					onCancelFormProcess={todoCtx.closeTaskActForm} />
 			</TasksContainer>
 
 
 			<TodoActionCenter
-				onAddTaskClicked={todoCtx.toggleActingTask}
+				onAddTaskClicked={todoCtx.openTaskActForm}
 				onDeleteAllTasksClicked={todoCtx.deleteAllTasks} />
 
 

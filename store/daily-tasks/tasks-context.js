@@ -13,6 +13,7 @@ const TasksContext = React.createContext({
 	selectTask: taskID => {},
 	editTask: taskData => {},
 	deleteTask: taskID => {},
+	deleteDayTasks: deletedDayId => {},
 
 	/* ========= SUBTASKs METHODs ========= */ 
 
@@ -79,10 +80,10 @@ export const TasksContextProvider = props => {
 
 	}
 
-	// > Handles editing task
+	// > Handles initiating editing task
 	const handleEditTask = taskId => {
 		// 1. Getting the data of the targetted task
-	  const taskObject = tasksMethods.getEditedTaskData(taskId, tasks);
+	  const taskObject = tasksMethods.getEditedData(taskId, tasks);
 
     // 2. Passing the data to the task action form and let the form complete the process
     if (!actingTask) handleOpenTaskActForm();
@@ -93,6 +94,20 @@ export const TasksContextProvider = props => {
   const handleDeleteTask = taskId => {
   	
   	doTaskProcess(taskId, tasksMethods.deleteTask, []);
+
+  }
+
+  // > Handles deleting the tasks of a specific day
+  const handleDeleteDayTasks = deletedDayId => {
+
+  	// 1. Delete the specific tasks of the deleted day
+  	const updatedTasks = tasksMethods.deleteDayTasks(tasks, deletedDayId);
+
+  	// 2. Updating the state
+  	setTasks(updatedTasks);
+
+  	// 3. Updating the local storage
+  	setLocalStorage('dailyTasks', updatedTasks);
 
   }
 
@@ -128,12 +143,15 @@ export const TasksContextProvider = props => {
 
   }
 
+
   // > Handles deleting a subtask
   const handleDeleteSubtask = (taskId, subtaskId) => {
 
   	doTaskProcess( taskId, tasksMethods.deleteSubtask, [subtaskId]);
 
   }
+
+
 
   // > This is for finding the targeted task and pass what-to-do-with-it as a function
   // > You have to return the updated tasks in the processFunc
@@ -171,6 +189,7 @@ export const TasksContextProvider = props => {
 		selectTask: handleSelectTask,
 		editTask: handleEditTask,
 		deleteTask: handleDeleteTask,
+		deleteDayTasks: handleDeleteDayTasks,
 
 		/* ========= SUBTASKs METHODs ========= */ 
 		
