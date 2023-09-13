@@ -16,13 +16,11 @@ const SubtaskBody = (props) => {
   };
 
   // These for updating the store and local storage to save the new subtasks order resulting from dragging
-  // let startDragPosition = -1, endDragPosition = -1;
   const [startDragPosition, setStartDragPosition] = useState(-1),
         [endDragPosition, setEndDragPosition] = useState(-1);
 
   useEffect(() => {
     if (startDragPosition !== -1 && endDragPosition !== -1) {
-      console.log('Subtask: ', startDragPosition, endDragPosition);
       props.onDragSubtask(props.taskId, startDragPosition, endDragPosition);
       setStartDragPosition(-1);
       setEndDragPosition(-1);

@@ -32,10 +32,22 @@ const selectTask = (tasks, targetedTaskIndex) => {
       break;
 
     case TASK_STATUSES.doing:
+
+    	// Marking all this task's subtasks as completed
+    	tasks[targetedTaskIndex].subtasks.forEach(subtask => {
+    		subtask.isDone = true;
+    	});
+
       tasks[targetedTaskIndex].status = TASK_STATUSES.done;
       break;
 
     default:
+
+    	// Marking all this task's subtasks as non-completed
+    	tasks[targetedTaskIndex].subtasks.forEach(subtask => {
+    		subtask.isDone = false;
+    	});
+
       tasks[targetedTaskIndex].status = TASK_STATUSES.todo;
       break;
 
@@ -144,8 +156,24 @@ const markSubtask = (tasks, targetedTaskIndex, subtaskId) => {
 
 	// 2. Marking the targeted subtask
 	tasks[targetedTaskIndex].subtasks[targetedSubtaskIndex].isDone =
-		!tasks[targetedTaskIndex].subtasks[targetedSubtaskIndex].isDone;	
+		!tasks[targetedTaskIndex].subtasks[targetedSubtaskIndex].isDone;
 
+	// 3. Checking if this task should be made completed
+	// .. or should be made in "todo" State or should not be touched
+	let doneSubtasksCount = 0;
+	tasks[targetedTaskIndex].subtasks.forEach((subtask, index) => {
+		if (subtask.isDone && index !== targetedSubtaskIndex) doneSubtasksCount += 1;
+	});
+
+	if (doneSubtasksCount === tasks[targetedTaskIndex].subtasks.length - 1) {
+		if (tasks[targetedTaskIndex].subtasks[targetedSubtaskIndex].isDone) {
+			tasks[targetedTaskIndex].status = TASK_STATUSES.done;
+		} else {
+			tasks[targetedTaskIndex].status = TASK_STATUSES.todo;
+		}
+	}
+	
+ 
 	return tasks;
 
 }
