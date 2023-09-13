@@ -14,6 +14,7 @@ const TodoContext = createContext({
 	editTask: (taskID, newTaskData) => {},
 	deleteTask: taskID => {},
 	deleteAllTasks: () => {},
+	dragTask: (startPosition, endPosition) => {},
 
 	/* ========= SUBTASKs METHODs ========= */ 
 
@@ -21,7 +22,8 @@ const TodoContext = createContext({
 	toggleAddingSubtask: taskID => {},
 	addSubtask: (targetedTaskId, newSubtask) => {},
 	markSubtask: (taskId, subtaskId) => {},
-	deleteSubtask: (taskId, subtaskId) => {}	
+	deleteSubtask: (taskId, subtaskId) => {},
+	dragSubtask: (taskId, startPosition, endPosition) => {}	
 });
 
 export const TodoContextProvider = props => {
@@ -108,9 +110,25 @@ export const TodoContextProvider = props => {
 		setLocalStorage('todoTasks', new Array());
 	}
 
-	// ===============================
-  // == SUBTASKs SPECIFIC METHODs ==
-  // ===============================
+	// > Handles Changing the position of task due to drag and drop effect
+  const handleDragTask = (startPosition, endPosition) => {
+  	const tasksList = [ ...tasks ];
+
+  	// 1. Getting the new tasks list after dragging
+  	const updatedTasks = tasksMethods.moveItemFromTo(tasksList, startPosition, endPosition);
+
+  	// 2. Updating the state
+  	setTasks(updatedTasks);
+
+  	// 3. Updating the local storage
+  	setLocalStorage('todoTasks', updatedTasks);
+  }
+
+
+
+	// =============================================================================
+  // ========================= SUBTASKs SPECIFIC METHODs =========================
+  // =============================================================================
 
   // > Handles switching subtasks container (toggle it to open or close)
   const handleToggleSubtasksContainer = taskId => {
@@ -146,6 +164,38 @@ export const TodoContextProvider = props => {
   	doTaskProcess( taskId, tasksMethods.deleteSubtask, [subtaskId]);
 
   }
+
+  // > Handles Changing the position of task due to drag and drop effect
+  const handleDragSubtask = (taskId, startPosition, endPosition) => {
+  	const updatedTasks = [ ...tasks ];
+
+  	// 1. Finding the targeted task
+  	const targetedTaskIndex = updatedTasks.findIndex(task => task.id === taskId);
+
+  	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+  	// 2. Getting the new subtasks list after dragging
+  	const updatedSubtasks = tasksMethods.moveItemFromTo(
+  		updatedTasks[targetedTaskIndex].subtasks,
+  		startPosition,
+  		endPosition
+  	);
+
+  	// 3. Updating the task that has the updated subtasks
+  	updatedTasks[targetedTaskIndex].subtasks = updatedSubtasks;
+
+  	// 4. Updating the state
+  	setTasks(updatedTasks);
+
+  	// 5. Updating the local storage
+  	setLocalStorage('todoTasks', updatedTasks);
+  }
+
+
+
 
 	// > This is for finding the targeted task and pass what-to-do-with-it as a function
   // > You have to return the updated tasks in the processFunc
@@ -184,6 +234,7 @@ export const TodoContextProvider = props => {
 		openTaskActForm: handleOpenTaskActForm,
 		selectTask: handleSelectTask,
 		deleteAllTasks: handleDeleteAllTasks,
+		dragTask: handleDragTask,
 
 		/* ========= SUBTASKs METHODs ========= */ 
 		
@@ -191,7 +242,8 @@ export const TodoContextProvider = props => {
 		toggleAddingSubtask: handleToggleAddingSubtask,
 		addSubtask: handleAddSubtask,
 		markSubtask: handleMarkSubtask,
-		deleteSubtask: handleDeleteSubtask
+		deleteSubtask: handleDeleteSubtask,
+		dragSubtask: handleDragSubtask
 	};
 
 	return (

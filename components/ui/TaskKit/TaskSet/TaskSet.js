@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './TaskSet.module.css';
 
 import TaskBody from '../TaskBody/TaskBody';
@@ -12,12 +12,32 @@ import {
 const TaskSet = (props) => {
   // This state property is for dragging by the drag icon
   const [isDraggable, setIsDraggable] = useState(false);
+  // These for updating the store and local storage to save the new tasks order resulting from dragging
+  // let startDragPosition = -1, endDragPosition = -1;
+  const [startDragPosition, setStartDragPosition] = useState(-1),
+        [endDragPosition, setEndDragPosition] = useState(-1);
+
+  useEffect(() => {
+    if (startDragPosition !== -1 && endDragPosition !== -1) {
+      console.log('Task: ', startDragPosition, endDragPosition);
+      props.onDragTask(startDragPosition, endDragPosition);
+      setStartDragPosition(-1);
+      setEndDragPosition(-1);
+    }
+  }, [endDragPosition]);
+  
 
   return (
     <div
       className={styles.Main}
-      onDragStart={e => { handleDragStart(e.target, 'dragging') }}
-      onDragEnd={e => { handleDragEnd(e.target, 'dragging') }}
+      onDragStart={e => {
+        console.log('Task: ', 'Dragging Started!!!!');
+        setStartDragPosition(handleDragStart(e.target, 'dragging'));
+      }}
+      onDragEnd={e => {
+        console.log('Task: ', 'Dragging Ended!!!!');
+        setEndDragPosition(handleDragEnd(e.target, 'dragging'));
+      }}
       draggable={isDraggable}
       >
 
@@ -55,6 +75,7 @@ const TaskSet = (props) => {
               taskId={props.taskID}
               onSubtaskClicked={props.onSubtaskClicked}
               onDeleteSubtaskClicked={props.onDeleteSubtaskClicked}
+              onDragSubtask={props.onDragSubtask}
               >
               {subtask.content}
             </SubtaskBody>

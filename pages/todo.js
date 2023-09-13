@@ -40,6 +40,8 @@ const TodoPage = props => {
               onSubtaskClicked={todoCtx.markSubtask}
               onDeleteSubtaskClicked={todoCtx.deleteSubtask}
               onCancelFormClicked={todoCtx.toggleAddingSubtask}
+              onDragTask={todoCtx.dragTask}
+              onDragSubtask={todoCtx.dragSubtask}
 							>
 							{task.description}
 						</TaskSet>

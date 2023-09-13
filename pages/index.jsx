@@ -55,7 +55,7 @@ const DailyTasksPage = props => {
         {
           tasksCtx.tasks
             .filter(task => task.day === daysCtx.activeDay)
-            .map(task => {
+            .map((task) => {
               return (
                 <TaskSet
                   key={task.id}
@@ -73,6 +73,8 @@ const DailyTasksPage = props => {
                   onSubtaskClicked={tasksCtx.markSubtask}
                   onDeleteSubtaskClicked={tasksCtx.deleteSubtask}
                   onCancelFormClicked={tasksCtx.toggleAddingSubtask}
+                  onDragTask={tasksCtx.dragTask}
+                  onDragSubtask={tasksCtx.dragSubtask}
                   >
                   <h3>{task.title}</h3>
                   <p>{task.description}</p>

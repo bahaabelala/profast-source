@@ -1,6 +1,3 @@
-import taskSetClasses from '../components/ui/TaskKit/TaskSet/TaskSet.module.css';
-import subtaskBodyClasses from '../components/ui/TaskKit/SubtaskBody/SubtaskBody.module.css';
-
 
 // Storing the dragged element DOM and dragging class
 let draggedElement = null;
@@ -13,6 +10,13 @@ export const handleDragStart = (draggedEl, draggingClass) => {
 	// 2. Adding the class of dragging into the dragged element classes
 	// .. (to change its style to the state of dragging)
 	draggedEl.classList.add(draggingClass);
+
+	// 3. Getting and returning the start position of the dragged element
+	const startDraggedElPosition = Array.from(draggedEl.parentElement.children)
+		.filter(el => !(el.nodeName === "FORM"))
+		.findIndex(el => el === draggedEl);
+
+	return startDraggedElPosition;
 }
 
 export const handleDragOver = (e, containerClass, activeNestedContClass) => {
@@ -27,7 +31,9 @@ export const handleDragOver = (e, containerClass, activeNestedContClass) => {
 	const activeNestedContainerEl = mainContainerEl.querySelector(`.${activeNestedContClass}`);
 
 	// 3. Deciding which element should be the dragging area
-	if (draggedElement.classList.contains(subtaskBodyClasses.Main)) {
+	if (activeNestedContainerEl === null) {
+		draggingArea = mainContainerEl;
+	} else if (draggedElement.classList.contains(activeNestedContainerEl.firstElementChild.classList[0])) {
 		draggingArea = activeNestedContainerEl;
 	} else {
 		draggingArea = mainContainerEl;
@@ -38,7 +44,7 @@ export const handleDragOver = (e, containerClass, activeNestedContClass) => {
 
 	// 5. Inserting the dragged element into the DOM according to the element that is below it
 	if (!belowDraggedEl) {
-		draggingArea.appendChild(draggedElement);
+		draggingArea.appendChild(draggedElement); 
 	} else {
 		draggingArea.insertBefore(draggedElement, belowDraggedEl);
 	}
@@ -46,7 +52,15 @@ export const handleDragOver = (e, containerClass, activeNestedContClass) => {
 }
 
 export const handleDragEnd = (draggedElement, draggingClass) => {
+	// 1. Removing the class of dragging from the dragged element classes
 	draggedElement.classList.remove(draggingClass);
+
+	// 2. Getting and returning the end position of the dragged element
+	const endDraggedElPosition = Array.from(draggedElement.parentElement.children)
+		.filter(el => !(el.nodeName === "FORM"))
+		.findIndex(el => el === draggedElement);
+
+	return endDraggedElPosition;
 }
 
 
@@ -54,12 +68,12 @@ const getBelowDraggedEl = (cursorY, draggingArea) => {
 
 	const shortestOffsetEl = {
 		dom: null,
-		offset: Number.POSITIVE_INFINITY
+		offset: Number.POSITIVE_INFINITY,
 	};
 
 	// Excluding the dragged element and the form from the children of this container
 	const draggableElements = Array.from(draggingArea.children)
-		.filter(el => {
+		.filter((el, i) => {
 			return !(el === draggedElement) && !(el.nodeName === "FORM");
 		});
 

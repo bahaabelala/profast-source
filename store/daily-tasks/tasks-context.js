@@ -14,6 +14,7 @@ const TasksContext = React.createContext({
 	editTask: taskData => {},
 	deleteTask: taskID => {},
 	deleteDayTasks: deletedDayId => {},
+	dragTask: (startPosition, endPosition) => {},
 
 	/* ========= SUBTASKs METHODs ========= */ 
 
@@ -21,7 +22,8 @@ const TasksContext = React.createContext({
 	toggleAddingSubtask: taskID => {},
 	addSubtask: (targetedTaskId, newSubtask) => {},
 	markSubtask: (taskId, subtaskId) => {},
-	deleteSubtask: (taskId, subtaskId) => {}
+	deleteSubtask: (taskId, subtaskId) => {},
+	dragSubtask: (taskId, startPosition, endPosition) => {}
 });
 
 export const TasksContextProvider = props => {
@@ -111,9 +113,25 @@ export const TasksContextProvider = props => {
 
   }
 
-  // ===============================
-  // == SUBTASKs SPECIFIC METHODs ==
-  // ===============================
+  // > Handles Changing the position of task due to drag and drop effect
+  const handleDragTask = (startPosition, endPosition) => {
+  	const tasksList = [ ...tasks ];
+
+  	// 1. Getting the new tasks list after dragging
+  	const updatedTasks = tasksMethods.moveItemFromTo(tasksList, startPosition, endPosition);
+
+  	// 2. Updating the state
+  	setTasks(updatedTasks);
+
+  	// 3. Updating the local storage
+  	setLocalStorage('dailyTasks', updatedTasks);
+  }
+
+
+
+  // =============================================================================
+  // ========================= SUBTASKs SPECIFIC METHODs =========================
+  // =============================================================================
 
   // > Handles switching subtasks container (toggle it to open or close)
   const handleToggleSubtasksContainer = taskId => {
@@ -149,6 +167,32 @@ export const TasksContextProvider = props => {
 
   	doTaskProcess( taskId, tasksMethods.deleteSubtask, [subtaskId]);
 
+  }
+
+  // > Handles Changing the position of task due to drag and drop effect
+  const handleDragSubtask = (taskId, startPosition, endPosition) => {
+  	const updatedTasks = [ ...tasks ];
+
+  	// 1. Finding the targeted task
+  	const targetedTaskIndex = updatedTasks.findIndex(task => task.id === taskId);
+
+
+
+  	// 2. Getting the new subtasks list after dragging
+  	const updatedSubtasks = tasksMethods.moveItemFromTo(
+  		updatedTasks[targetedTaskIndex].subtasks,
+  		startPosition,
+  		endPosition
+  	);
+
+  	// 3. Updating the task that has the updated subtasks
+  	updatedTasks[targetedTaskIndex].subtasks = updatedSubtasks;
+
+  	// 4. Updating the state
+  	setTasks(updatedTasks);
+
+  	// 5. Updating the local storage
+  	setLocalStorage('dailyTasks', updatedTasks);
   }
 
 
@@ -190,6 +234,7 @@ export const TasksContextProvider = props => {
 		editTask: handleEditTask,
 		deleteTask: handleDeleteTask,
 		deleteDayTasks: handleDeleteDayTasks,
+		dragTask: handleDragTask,
 
 		/* ========= SUBTASKs METHODs ========= */ 
 		
@@ -197,7 +242,8 @@ export const TasksContextProvider = props => {
 		toggleAddingSubtask: handleToggleAddingSubtask,
 		addSubtask: handleAddSubtask,
 		markSubtask: handleMarkSubtask,
-		deleteSubtask: handleDeleteSubtask
+		deleteSubtask: handleDeleteSubtask,
+		dragSubtask: handleDragSubtask
 	};
 
 	return (

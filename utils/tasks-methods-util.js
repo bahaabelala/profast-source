@@ -45,20 +45,6 @@ const selectTask = (tasks, targetedTaskIndex) => {
 
 }
 
-// > Handles editing a task
-const getEditedData = (itemId, list) => {
-	const itemsList = [ ...list ]
-
-	// 1. Finding the index of the targeted task
-  const targetedItemIndex = itemsList.findIndex(item => item.id === itemId);
-
-  // 2. Getting the targeted item from the list of items by its id
-  const itemObject = { ...itemsList[targetedTaskIndex] }
-
-  return itemObject;
-
-}
-
 // > Handles deleting task
 const deleteTask = (tasks, targetedTaskIndex) => {
 
@@ -183,6 +169,40 @@ const deleteSubtask = (tasks, targetedTaskIndex, subtaskId) => {
 
 }
 
+
+
+// ==================================================
+// ================ GENERAL METHODs ================
+// ==================================================
+
+// > Handles editing an item
+const getEditedData = (itemId, list) => {
+	const itemsList = [ ...list ]
+
+	// 1. Finding the index of the targeted task
+  const targetedItemIndex = itemsList.findIndex(item => item.id === itemId);
+
+  // 2. Getting the targeted item from the list of items by its id
+  const itemObject = { ...itemsList[targetedItemIndex] }
+
+  return itemObject;
+
+}
+
+// > This moves an item in a list from its initial index to another
+const moveItemFromTo = (itemsList, fromIndex, toIndex) => {
+  // 1. Removing the moved item from the list and storing it
+  const movedItem = itemsList.splice(fromIndex, 1)[0];
+
+  // 2. Inserting the moved item in the new position
+  itemsList.splice(toIndex, 0, movedItem);
+
+  // 3. Returning the updated list
+  return itemsList;
+}
+
+
+
 export {
 	addOrEditTask,
 	selectTask,
@@ -193,5 +213,6 @@ export {
 	toggleAddingSubtask,
 	addSubtask,
 	markSubtask,
-	deleteSubtask
+	deleteSubtask,
+	moveItemFromTo
 };
