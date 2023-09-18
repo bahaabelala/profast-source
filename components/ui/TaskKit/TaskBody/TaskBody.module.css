@@ -258,10 +258,8 @@
 @keyframes open-action-center {
     0% {
         width: 0;
-        border-radius: 0;
     }
     100% {
         width: 75px;
-        border-radius: 3px;
     }
 }

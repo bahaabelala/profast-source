@@ -140,8 +140,11 @@ const toggleAddingSubtask = (tasks, targetedTaskIndex) => {
 // > Handles Adding subtask
 const addSubtask = (tasks, targetedTaskIndex, newSubtask) => {
 
-	// Adding the subtask to the targeted task by using its index
+	// 1. Adding the subtask to the targeted task by using its index
 	tasks[targetedTaskIndex].subtasks.push(newSubtask);
+
+	// 2. Marking the task to be in the "todo" state
+	tasks[targetedTaskIndex].status = TASK_STATUSES.todo;
 
 	return tasks;
 
@@ -185,10 +188,16 @@ const deleteSubtask = (tasks, targetedTaskIndex, subtaskId) => {
 	const targetedSubtaskIndex =
 		tasks[targetedTaskIndex].subtasks.findIndex(subtask => subtask.id === subtaskId);
 
-	// 2. Marking the targeted subtask
+	// 2. Removing the targeted subtask
 	tasks[targetedTaskIndex].subtasks.splice(targetedSubtaskIndex, 1);
 
-	// 3. Close Subtasks Container if there are NOT any more subtasks
+	// 3. Doing a check to know if all the remaining subtasks are done
+	// .. if they are all done, the whole task should be marked as done too
+	const isWholeTaskCompleted = tasks[targetedTaskIndex].subtasks.every(subtask => subtask.isDone);
+
+	if (isWholeTaskCompleted) tasks[targetedTaskIndex].status = TASK_STATUSES.done;
+
+	// 4. Close Subtasks Container if there are NOT any more subtasks
 	// ...not to make the container opened with no subtasks in it!
 	if (tasks[targetedTaskIndex].subtasks.length === 0)
 		toggleSubtasksContainer(tasks, targetedTaskIndex);
