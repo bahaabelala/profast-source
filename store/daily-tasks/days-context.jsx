@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect, useContext } from 'react';
 import getFormattedDay from '../../utils/format-date-util';
 import { setLocalStorage, getLocalStorage } from '../../utils/local-storage-util';

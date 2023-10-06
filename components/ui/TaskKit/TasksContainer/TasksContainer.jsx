@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useRef } from 'react';
 import styles from './TasksContainer.module.css';
 import subtasksContainerClasses from '../SubtasksContainer/SubtasksContainer.module.css';

@@ -1,5 +1,7 @@
+"use client";
+
 import { createContext, useState, useContext, useEffect } from 'react';
-import NotificationContext from '../store/notification-context';
+import NotificationContext from './notification-context';
 import { setLocalStorage, getLocalStorage } from '../utils/local-storage-util';
 import * as tasksMethods from '../utils/tasks-methods-util.js';
 
@@ -87,7 +89,7 @@ export const TodoContextProvider = props => {
 	// > Editing task procedure
 	const handleEditTask = taskId => {
 		// 1. Getting the data of the targetted task
-    const taskObject = tasksMethods.getEditedTaskData(taskId, tasks);
+    const taskObject = tasksMethods.getEditedData(taskId, tasks);
 
     // 2. Passing the data to the task action form and let the form complete the process
     if (!actingTask) handleOpenActingTask();
@@ -171,11 +173,6 @@ export const TodoContextProvider = props => {
 
   	// 1. Finding the targeted task
   	const targetedTaskIndex = updatedTasks.findIndex(task => task.id === taskId);
-
-  	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 
   	// 2. Getting the new subtasks list after dragging
   	const updatedSubtasks = tasksMethods.moveItemFromTo(

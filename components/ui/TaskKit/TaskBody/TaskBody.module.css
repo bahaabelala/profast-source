@@ -203,8 +203,8 @@
 
     color: var(--green-2);
     fill: var(--green-2);
-    border-top: 3px solid var(--green-2);
-    border-bottom: 3px solid var(--green-2);
+    border-top: 2px solid var(--green-2);
+    border-bottom: 2px solid var(--green-2);
     overflow: hidden;
     padding: 0 5px;
 

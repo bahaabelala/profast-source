@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect, useContext } from 'react';
 import { setLocalStorage, getLocalStorage } from '../../utils/local-storage-util';
 import NotificationContext from '../notification-context';

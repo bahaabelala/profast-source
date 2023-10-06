@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useContext } from 'react';
 import Head from 'next/head';
 import styles from '../styles/daily-tasks.module.css';
@@ -8,24 +10,24 @@ import TasksContainer from '../components/ui/TaskKit/TasksContainer/TasksContain
 import TaskSet from '../components/ui/TaskKit/TaskSet/TaskSet';
 import TaskActForm from '../components/ui/TaskKit/TaskActForm/TaskActForm';
 import DayActionCenter from '../components/daily-tasks-page/DayActionCenter/DayActionCenter';
+import Notification from '../components/ui/Notification/Notification';
 
 // Global Stores
 import TasksContext from '../store/daily-tasks/tasks-context';
-import DaysContext from '../store/daily-tasks/days-context'; 
+import DaysContext from '../store/daily-tasks/days-context';
+import NotificationContext from '../store/notification-context';
+
 
 
 const DailyTasksPage = props => {
   const tasksCtx = useContext(TasksContext);
   const daysCtx = useContext(DaysContext);
+  const notificationCtx = useContext(NotificationContext);
 
   
 
   return (
     <div className={styles.DailyTasksPage}>
-      <Head>
-        <title>Daily Tasks</title>
-        <meta name="description" content="Productivity app by bahaa mohammed" />
-      </Head>
 
       <SideBar
         addBtnText="Add Day"
@@ -96,6 +98,11 @@ const DailyTasksPage = props => {
         onAddTaskClicked={tasksCtx.openTaskActForm}
         onDeleteActiveDayClicked={daysCtx.deleteActiveDay}
          />
+
+      
+      <Notification type={notificationCtx.type} active={notificationCtx.isActive}>
+        {notificationCtx.message}
+      </Notification>
 
     </div>
   )
