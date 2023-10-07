@@ -1,4 +1,4 @@
-import React from 'react';
+import Image from 'next/image';
 import styles from './styles.module.css';
 
 import Navigation from './Navigation/index';
@@ -9,9 +9,7 @@ import SettingsIcon from '../../icons/SettingsIcon';
 const MainHeader = props => {
   return (
     <header className={styles.MainHeader}>
-      <h1 className={styles.mainTitle}>
-        Pro<i>Fast</i>
-      </h1>
+      <Image src="/logo.svg" alt="Productivity Logo" width="120" height="30" />
       <Navigation />
       <User />
       <div className={styles.settingsIconContainer}>
