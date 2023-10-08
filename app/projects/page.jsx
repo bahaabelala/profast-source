@@ -1,6 +1,6 @@
 import React from 'react';
 // import Head from 'next/head';
-import styles from '../styles/projects.module.css';
+import styles from '../../styles/projects.module.css';
 
 // import SideBar from '../components/ui/SideBar/SideBar';
 // import SideBarButton from '../components/ui/SideBarButton/SideBarButton';

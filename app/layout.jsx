@@ -8,7 +8,7 @@ import { DaysContextProvider } from '../store/daily-tasks/days-context';
 import { NotificationContextProvider } from '../store/notification-context';
 import { TodoContextProvider } from '../store/todo-context';
 
-import MainHeader from '../components/layout/MainHeader/index';
+import MainHeader from '../components/layout/MainHeader/index.js';
 
 
 
