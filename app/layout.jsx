@@ -2,7 +2,7 @@ import { Fragment, useContext } from 'react';
 import '../styles/globals.css';
 import 'remixicon/fonts/remixicon.css';
 
-import MainHeader from '../components/layout/MainHeader/index';
+import MainHeader from '../components/layout/MainHeader/MainHeader';
 
 import { TasksContextProvider } from '../store/daily-tasks/tasks-context';
 import { DaysContextProvider } from '../store/daily-tasks/days-context';

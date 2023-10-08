@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import styles from './styles.module.css';
+import styles from './MainHeader.module.css';
 
 import Navigation from './Navigation/index';
 import User from './User/index';
