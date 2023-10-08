@@ -3,7 +3,7 @@ import styles from './MainHeader.module.css';
 
 import Navigation from './Navigation/index';
 import User from './User/index';
-import SettingsIcon from '../../icons/SettingsIcon';
+import SettingsIcon from '../icons/SettingsIcon';
 
 
 const MainHeader = props => {
