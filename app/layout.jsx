@@ -2,13 +2,13 @@ import { Fragment, useContext } from 'react';
 import '../styles/globals.css';
 import 'remixicon/fonts/remixicon.css';
 
+import MainHeader from '../components/layout/MainHeader/index';
 
 import { TasksContextProvider } from '../store/daily-tasks/tasks-context';
 import { DaysContextProvider } from '../store/daily-tasks/days-context';
 import { NotificationContextProvider } from '../store/notification-context';
 import { TodoContextProvider } from '../store/todo-context';
 
-import MainHeader from '../components/layout/MainHeader/index.js';
 
 
 

@@ -9,7 +9,7 @@ import SettingsIcon from '../../icons/SettingsIcon';
 const MainHeader = props => {
   return (
     <header className={styles.MainHeader}>
-      <Image src="/logo.svg" alt="Productivity Logo" width="120" height="30" />
+      <Image src="/logo.png" alt="Productivity Logo" width="144" height="36" />
       <Navigation />
       <User />
       <div className={styles.settingsIconContainer}>
