@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
         <title>Daily Tasks</title>
         <meta name="description" content="Productivity app by bahaa mohammed" />
         <meta name="viewport" content= "width=device-width, initial-scale=1.0" />
-        <link rel="icon" href="/productivity.png" />
+        <link rel="icon" href="/logo-mini.png" />
       </head>
       <body>
 
